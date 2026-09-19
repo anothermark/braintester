@@ -1,0 +1,56 @@
+
+Remove Classes in the Tester App
+
+
+
+KEEP THESE CLASSES: (10 or 11)
+BrainTest3
+
+DBTesterUtility esp. TESTER_EXAMS_LIST_3 (shouldn't thius be 4?), and FINAL_GRADED_EXAMS_1 and (Change the ifs to a loop!!) and
+	TESTER_EXAMS_LIST_3 - keep, but USED WITH a lot of buttons but clarify
+FAQData
+GetGradedExams - bogus because of masterGradedList but keep anyway - lots of info in there. Do not clean up.
+InsertGraded - lost, double-check, but don't throw out just yet. Uses masterGradedList.
+PopulateTesterRows esp. TESTER_EXAMS_LIST_3 (not 4) - I MIGHT BE USING THIS, ESPECIALLY 
+	THE setOriginalProfExams() METHOD. DOUBLE CHECK, and clean up
+
+RetrieveGradedExams esp. FINAL_GRADED_EXAMS_2 
+ReviewStudentExam esp. Students_Graded_Exams_Table2 
+
+UpdateFinalStudentExams esp. STUDENTS_OUTERNESTED_TABLE4 
+UpdateGradedExams - but not sure I'm still using this. esp. FINAL_GRADED_EXAMS_2
+UpdateMasterTesterTable not sure but keep for now and figure it out. esp. TESTER_EXAMS_LIST_3, but
+	did not clean up. Study this and reconcile it somehow. 
+
+
+
+
+NOT SURE ABOUT THESE:
+CheckBoolListIfCorrect keep, but don't use. I moved the code into BrainTest3 but there is info in there
+CreateFinalGradedTable_1 esp. FINAL_GRADED_EXAMS_1 MOVED CAUSE I CAN'T FIND WHERE USED
+CreateOriginalExamsTable_1 esp. TESTER_EXAMS_LIST_3 MOVED CAUSE I CAN'T FIND WHERE USED
+
+
+REMOVE THESE:
+CalculateGradesUtility
+QuestionSuperT
+QuestionSuperT1
+QuestionSuperT2
+QuestionSuperTFactory
+moved - RetrieveRowData2B esp. BUILDER_EXAMS_LISTS_17, this I believe is a duplicate in Builder. Which to use?
+
+
+
+
+
+NOT SURE ABOUT THESE:
+PopulateFinalGradedExamsInit, but double-check. I don't think I use it. Did not clean up.
+PopulateTableRows2B esp. NAMES1 table. Did not clean up
+
+
+
+
+
+
+
+

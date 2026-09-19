@@ -1,0 +1,133 @@
+BrainTester4 Stuff ToDo list
+// This was near the top of BrainTester3 class and was
+// moved here, most of which are done or not relevant. 
+
+// copy the old commented and finished todo stuff at the top
+
+// Thur 2-26-26 ToDo clean up
+// DRAFT FAQ FOR BUILDER AND TESTER
+// DRAFT READ_ME FOR BUILDER AND TESTER
+
+//DONE - // move all files/classes etc that are not being used out of the packages, but don't delete them.
+// DONE - And make a list of all the classes etc I'm using and 
+
+// FAQ with working anchors and links. Make it work!!!
+// READ_ME FILE
+// MOCK UP OF UML (ULM?) SCHEMATIC OF ALL CLASSES, ETC. 
+
+// Do I need to save the start/end/time data that I'm capturing? Have I??
+// No, you have not. It starts in Begin Exam and ends in Finish with totalDuration variable
+// displayed, but no need to save that info, I don't think. Overkill. 
+
+// Display "Select an Exam" string in the begin combobox and see if that 
+// is a huge problem with all other indexes cause it would make index 0 become index 1, etc.
+
+// DINE. USED TWO LOOPS. big - the delete exams and rows in BuilderDBTester has to be fixed, change hard code delete
+// to a loop, somehow, make this work !!!!!!!!!!!!!!
+
+// FIXED, I THINK - In Exam Preview tester, fix date of exam cause it's pulling up the current date each time.
+
+// DONE, I THINK, WITH setDateOfExam(Date dateOfExam). Need to store the date it was taken. 
+// Do I need to add another method to QuestionSuper? ALREADY GOT IT. setDateOfExamStr()
+// AND IT'S CALLED IN THE FINISH BUTTON
+
+// Do all or some of these below variables need to be marked private? Maybe noT necessary
+// because the standalone only has one client/student.
+
+// I don't have anything for the 4th answer radio button because I never created a fourth possible answer in Builder.
+
+// Fixed/Done. I just don't let them click those four buttons 
+// without first Beginning an Exam
+
+// DONE - re setting date start and finish etc., I need google to figure it out.
+
+// FIXED MAJOR HEADACHE - Now I can delete a row, the first in a list,but that leaves me with another problem,
+
+// close all connections to the db after use because I keep getting the warning re db still in use
+// that was because you hid the running app behind the Eclipse ide.
+// aFTER CLOSING AS MANY CONNECTIONS I COULD FIND IT STILL THROWS THAT EXCEPTION THAT DB IS STILL IN USE
+
+// DONE. FIXED. TO DO - In review, when I click a button or the Exam 2 link, where the exam has not been taken it does not clear out
+// the previous exam info. So do that next with an if
+
+// Maybe blown. Lambdas and streams etc. when exam number is clicked. But I don't think it's worth it, and not sure how
+// it would help the cause or make things easier. Think about it. 
+
+// DONE - 3-8-26 When clicking the Begin button without selecting an exam from the combobox, prevent that with
+// a message that forces them to select first. This should hold until I figure out how to 
+// change the combobox first index to "Select an Exam".
+
+// DONE FIXED - Need a button to delete graded rows one-by-one, from where? First created?
+
+// DONE - Add another answer field
+
+// README TODO For multiple answers option, undo the group button thing ??? But that would require
+// someone changing the code a BUNCH of times. mOVED TO README TODO
+
+// Do I really need a login for a standalone? Leave t there for now
+// Remove it and free up some space
+
+// DONE - Wire up start/end/time - do I need it? It would add class to it
+
+// iN bUILDER, VERY IMPORTANT, // WED 2-4-26 LAKE MEADE DANGER DANGER, 
+// DONE, FIXED - THIS if (selectedValue.equals("Exam 1")) { HAS TO GO IN A LOOP !!! AROUND LINE 400
+
+// DONE - FIXED - IN BuilderDBTesterUtility i CHANGED several deleteRows methods, no need for loop or ifs. 
+// but just used the selectedExamIndex
+
+// Nope. Leave them as is and just use find. also in QuestionSuper, put all variables in the same top-to-bottom order as the methods 
+// because now they are scattered and more difficult to locate.
+
+// DONE, i'M PRETTY SURE. Automate all of those many buttons at the bottom of Builder, but maybe lastly
+
+// DONE - FIXED. With the review buttons re questions, make sure the correct radiobutton is selected. i HAD TO?
+
+// DONE - IT JUST GETS ADDED TO THE LIST, i THINK, FROM THE POP UP AT QUESTION CRREATION. ouch, profs need 
+// to select how many questions they want per exam, and that variable
+// gets sent in to create the list? Or do I just start empty and add?? No I think I
+// have all of that hardcoded with nulls and sets, right???
+
+// Nope. MUST FIX THIS AND FIGURE IT OUT. CAN'T HARDCOCE BUT
+// LOST!!!! NEED TO USE A LOOP OF SOME KIND. I had to revert back to hardcoding. big problem. DONE - NO NEED FOR IFS OR 
+// LOOPS - deleteRows() method needs the ifs to go in a loop in DBTesterUtility class
+
+// DONE - Identify which classes are retained, removed or you don't know.
+
+// For the READ_ME take a stab
+// at creating uml stuff that can be used later, methods and variables in a class box thingy
+
+// Done I think. In InsertInitialOuterNestedPlaceholders, Need to change 3 in a loop to length of something instead, like count?
+
+//  DANGER - this WON'T WORK WITHOUT HAVING TO CHANGE Exam 1 etc. everywhere.
+// In the tester select exam combobox, move the first exam Exam 1 down one, and add "Select an Exam"
+// as the first thing they see, but WILL THIS NEW INDEX MESS ME UP???!!!!!!
+
+// DONE - I THINK. Remember to clear selection over in Builder when creating a question. 
+
+// DONE, I THINK. Also, with gradedOnce evaluation, use an if so they can click previous and go back and forth
+// to the questions, but not the correct answers stuff like in immediate grade. part of unit test?
+
+// On the JTabbed pane, how to make the preview pane the automatic default when taking the exam???? I fixed this already 
+// this is important. How to pick which pane is displayed when the exam begins? Is that even possible???
+// I'll stick with the default for now, the pane on the left
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

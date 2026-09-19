@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title=> Misc</title>
+</head>
+<body>
+	<h1> Hello, Student!</h1>
+	<p>This is the first paragraph on a simple HTML page.</p>
+	
+	<a href="#section1">Go to section one</a>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+	<BR>
+
+
+	
+	
+	<p>This is my second paragraph on a simple HTML page, but it won't scroll down.</p>
+	<div id="section1">Section1 paragraph with anchor</div>
+		
+	<p>This is my third paragraph on a simple HTML page.</p>
+	
+	</body>
+	</html>

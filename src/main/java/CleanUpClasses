@@ -1,0 +1,19 @@
+Clean up classes
+
+
+BrainTest3 (so this last)
+DBTesterUtility - Problems with this class; track down and fix
+GetGradedExams - Bogus, but keep anyway. No clean up.
+InsertGraded - Probably bogus as well, but keep just in case. No clean up.
+PopulateTesterRows - Another bogus class? No clean up. This is leaving me with few classes!!
+RetrieveGradedExams
+ReviewStudentExam - Bogus? But keep. 
+UpdateFinalStudentExams
+UpdateGradedExams
+
+
+
+
+
+
+

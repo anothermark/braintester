@@ -1,0 +1,481 @@
+
+Brain Tester READ_ME file
+
+This Java 11 Swing app was designed and created in the open-source Eclipse IDE using WindowBuilder
+and a shared H2 Database.
+
+CLASSES, TABLES, METHODS, AND INSTRUCTIONS ON THEIR USE AND DEPLOYMENT:
+
+OVERIEW: The Brain Tester application is where the student takes exams created in the Brain Builder. 
+After providing last and first names, an exam must first be selected from the dropdown menu by clicking
+the arrow. Then, click 'Begin Exam' whereupon the question and answer fields populate the data fields
+along with exam and question number, title, topic, etc. Currently, five (5) multiple choice questions
+are provided, with only one selection answer permitted. 
+
+Before beginning, a dialog prompts the student user with respect to the preferred question evaluation timing. 
+The user may choose to evaluate each question upon its completion. Once graded/evaluated, the correct/incorrect 
+answers are displayed immediately. Or, the user may choose to evaluate and grade all questions 
+one time at the conclusion of the exam. Click Evaluate, Next, or Previous, and then Finish when done. 
+After exams are finished and graded the user may review them at a later time (see the REVIEWING GRADED EXAMS section below).
+
+// ?(The exam may be traversed, one question at a time (Really? If they skip an
+evaluation is it automatically graded as though no question chosen and therefore fail?)??
+
+BIG TODO CLASS: BrainTester3 - Displays the GUI dashboard
+The BrainTester Dashboard is self-explanatory in large part but do this last
+
+SELECT AN EXAM -----------------------------------------------------
+
+Select an exam using the JComboBox (in the BrainTester3 class) which lists exams 
+as "Exam 1", "Exam 2", "Exam 3" etc. Currently these titles/labels are hardcoded
+and not modifiable by the Builder creator as they are in the Builder application JList. 
+Beware, even for Exam 1, the user must drop down the menu list and select the 
+exam specifically. Upon selection, that index value is captured with 
+selectedExamIndex = comboBoxSelectExam.getSelectedIndex() and is assigned to the
+important and often-used selectedExamIndex, a global Integer variable in different settings.
+
+BEGIN THE EXAM ------------------------------------------------------
+
+Once the exam is selected from the JComboBox the user clicks 'Begin Exam' 
+whereupon a dialog message appears prompting the user to choose between the 
+immediate evaluation and grading of each question, or a singular one-time
+evaluation and grading of all questions in bulk at the end of the exam. That global
+boolean variable evalGradeImmediately is used in the subsequent 'Evaluate' section to 
+determine which questions/answers to display, along with immediate grade evaluation, 
+if true (yes) was selected. 
+
+Then, the getRowData() method in the GetProfListFromDB class (WHICH IS OVER IN BUILDER
+AND MUST BE MOVED/REPLICATED IN TESTER!!!) returns a listOfQuestionsSER exam, an ArrayList of 
+anonymous QuestionSuper subclasses, each representing a question, which the Builder deposited 
+earlier in the second TESTER_EXAMS_LIST_4 table (The profsfinal table). Brain Tester uses this 
+listOfQuestionsSER (one of the beating hearts of both applications) to determine if the 
+exam has started, among other things. If the exam has not yet started then data fields are 
+populated with questions and potential answers, etc. 
+
+Next, updateGradedExams.updateGradedExam() sends that listOfQuestionsSER (inter alia) 
+to the UpdateGradedExams class where it is serialized and saved (UPDATE) to the 
+FINAL_GRADED_EXAMS_2 table. Immediately, retrieveGradedExams.getGradedExam() 
+returns a deserialized version of that listOfQuestionsSER [Also need another
+duplicate class of BuilderDBTesterUtility if I want to get the rowcount.] And that
+listOfQuestionsSER in turn is used in the 'Begin Exam' section to reset the text area answer fields.
+
+Notice it is important that to the extent possible objects such as listOfQuestionsSER are routinely saved to and 
+returned from DB tables; many bugs can be avoided this way, such as using or losing objects in memory when
+they should have been serialized and stored as a matter of course in the database. 
+
+CLASS: GetProfListFromDB - Retrieves listOfQuestionsSER from the TESTER_EXAMS_LIST_4 table (profsfinal).
+METHOD: getRowData()
+
+CLASS: UpdateGradedExams - Receives listOfQuestionsSER from the 'Begin Exam, button section.
+METHOD: updateGradedExam() writes updateGradedExam to FINAL_GRADED_EXAMS_2 table.
+
+CLASS: RetrieveGradedExams - Retrieves listOfQuestionsSER from FINAL_GRADED_EXAMS_2 table.
+METHOD: getGradedExam() 
+
+====================== fix this thing =============================
+Todo - Tester probably needs its own copies of GetProfListFromDB and BuilderDBTesterUtility 
+classes which are over in Builder.
+ 
+DANGER DANGER DANGER- How can Tester have access to GetProfListFromDB in Builder top access the 
+second profsfinal table?? I NEED A NEW CLASS IN TESTER THAT REPLICATES GetProfListFromDB
+GetProfListFromDB getProfListFromDB = new GetProfListFromDB();
+					try {
+						listOfQuestionsSER = getProfListFromDB.getRowData(selectedExamIndex); 
+ ============================== ========================================
+
+EVALUATE (Grade) QUESTIONS ----------------------------------------------
+
+Many people (author included) prefer to have each question evaluated and graded immediately. An
+answer is selected, 'Evaluate' is clicked, and pass/fail is displayed along with the correct answers
+including detailed explanations and other useful and relevant information. Some people, on the other hand,
+prefer to have all exams graded in a batch at one time at the end after all questions have been answered. 
+Then, they wade through that batch one by one if they wish to review the material. 
+Clicking 'Begin Exam' initially prompts the user to make that choice.
+
+Assuming the user chooses to evaluate and grade each question immediately, the first code of
+consequence in the actionPerformed() method of the 'Evaluate' button (section) captures  the student's 
+radio button answer selection. First, a Boolean list (radioButtonSelections) is initialized with five (5) false values,
+and then a series of if statements captures the specific selection and sets that particular list index to true. And it is this 
+list of the student's choice that is compared to the professor's original list of correct 
+answers (theProfsCorrectAnswers). If these two ArrayLists are equal the student passes, if not, then it's a fail. 
+After a radio button selection is made in the 'Evaluate' button section the
+professor's correct answers are retrieved (theProfsCorrectAnswers = listOfQuestionsSER.get(qNumber).getProfsCorrectAnswers();
+
+IMMEDIATE EVALUATION - If the student user chose immediate evaluation the student's radioButtonSelections ArrayList 
+is tested for equality with theProfsCorrectAnswers, and if equal the anon object's setPassFail("pass") is set to "pass."
+Then, the indexOfTrueSelected is run through a series of switch/case statements and correct answers are 
+displayed accordingly - the results are immediate. With each evaluation the listOfQuestionsSER is populated with 
+graded/evaluated questions.
+
+NON-IMMEDIATE OR BULK EVALUATION - Those users who choose to evaluate their questions one time in bulk at the conclusion
+of the exam (in the else statement) merely add the button selection list radioButtonSelections 
+to gradeOnceListOfListsSER, a global variable of type ArrayList<ArrayList<Boolean>>; a list of a list 
+of Booleans (gradeOnceListOfListsSER.add(radioButtonSelections). Bulk evaluation has not yet employed 
+a listOfQuestionsSER as in the immediate evaluation procedure. That comes next 
+after all questions have been answered (evaluated) and the 'Finish' button is clicked.
+
+CLASS: None to speak of in this section
+
+FINISH - GRADING/EVALUATING BULK QUESTIONS; PROCESSING ALL IMMEDIATE AND BULK RESULTS ----------------
+
+After the last question is answered, and upon clicking 'Finish' in the first if statement,
+all bulk questions are graded one time by comparing the student's  gradeOnceListOfListsSER 
+of boolean selections with theProfsCorrectAnswers Boolean list, similar to grading in the immediate 
+eval section above. Looping through each selection, the anon object specifies whether the answer 
+is correct and calls setPassFail("pass"), if applicable, on objects stored in the listOfQuestionsSER.
+
+With questions graded and a listOfQuestionsSER in hand, the next step for bulk evaluation is 
+to count the number of correct questions and calcuate the percentage passing grade. 
+Thus, looping through the listOfQuestionsSER, ++countPass counts the number of those passing grades.
+This process is replicated in the else statement for the listOfQuestionsSER list of questions
+evaluated immediately in the prior 'Evaluate' button section. ++countPass counts the number 
+of those (immediate) passing grades as well.
+
+Regardless of immediate or bulk evaluation, now there is essentially one listOfQuestionsSER
+and the next step is to use countPass to calculate 'percentGrade' which basically shows you
+what your score is, ie., 66% or 92%, using simple math. Finally the student user is notified via dialog
+whether they passed or failed and what they scored, and that grade is stored (somewhere, somehow? double-check. 
+
+SAVING THE CONCLUDED EXAM FOR SUBSEQUENT REVIEW ---------------------------------------
+
+This is an important final step where the listOfQuestionsSER is saved in a triple-nested
+series of ArrayLists. The most inner list is the exam listOfQuestionsSER, a list of questions.
+This most-inner list is contained in the innerMasterListOfQuestionsSER. 
+Each innerMasterListOfQuestionsSER represents an exam (ie, Exam 1 - Doctrine of the Trinity.) and may contain many 
+such taken exams. To reiterate, each such innerMasterListOfQuestionsSER represents a type of exam 
+and contains one or more listOfQuestionsSER exams. And this innerMasterListOfQuestionsSER is contained 
+within the outerMasterListofMastersSER. This outer is a list of innerMasterListOfQuestionsSER exam lists. 
+
+So the outerMasterListofMastersSER contains one or more innerMasterListOfQuestionsSER, which in turn
+contain individual listOfQuestionsSER exams. And it is this outerMasterListofMastersSER that is
+serialized and saved to the STUDENTS_OUTERNESTED_TABLE4 table. 
+
+This is accomplished near the end of the 'Finish' button method by calling the upDateFinalGradedStudentExams()
+
+// DANGER DANGER 4-26 
+
+method on the UpdateFinalStudentExams class where, first, the listOfQuestionsSER is added (no, can't add but must set it)
+to the innerMasterListOfQuestionsSER, which in turn is set in the outerMasterListofMastersSER, which
+is then saved (UPDATE) to the STUDENTS_OUTERNESTED_TABLE4.
+
+This triple-nested series of ArrayLists enabnles the same exam to be taken multiple times (ie., Exam 1)
+and the two most recent exams can then be compared for grade averages (as it is now set up). Having 
+the one outerMasterListofMastersSER object seems to simplify the review process and keeps all of the 
+exam information in one convenient spot. 
+
+CLASS: UpdateFinalStudentExams (final resting place of graded exams; used for review)
+METHOD: upDateFinalGradedStudentExams() saves listOfQuestionsSER to the
+	triple-nested outerMasterListofMastersSER.
+METHOD: setOuterMasterListOfMastersSER() sets the outermaster in the STUDENTS_OUTERNESTED_TABLE4 table.
+METHOD: getOuterMasterListOfMastersSER() Gets the outermaster from the  STUDENTS_OUTERNESTED_TABLE4 table.
+METHOD: getGradedOnceInnerMasterListSER() [do I even use this? Maybe not!!]
+
+
+REVIEWING GRADED EXAMS ----------------------------------------------------------------
+
+Once the exam is finished and graded the user may review the exam in the 'Question Preview - Exams - Review of Questions' panel.
+In the 'Review Most Recent Graded Exams' pane, select the exam from the JList at which time two (2) tables
+are populated. To the immediate right in the 'Review of Questions' table the question number, pass/fail grade and topic 
+are filled. Immediately above in the skinny horizontal table additional information is presented regarding the most recent
+exam, such as title, date of exam, times taken, latest score and average score. Note, average score requires at
+least two (2) exams to have been taken, and it averages only the two most recent exams. We're simply getting 
+String data from each object in the retrieved listOfQuestionsSER. And 'Delete Exam' does just that, beginning 
+with the first graded exam. 
+
+The 'Review Most Recent Graded Exams' pane contains one JListOfExams with twenty (20) hard-coded exams 
+listed (although as currently coded only ten (10) exams with ten (10) questions per exam are permitted.
+Selecting 'Exam 1' after final evaluation/grading eventually returns a listOfQuestionsSER which as detailed above 
+is buried deep in an outerMasterListofMastersSER. 
+
+Note, the radio button labeled 'R' (for Review) to the immediate left of each vertical table row. Clicking that button 
+will populate not only the more reader-friendly large preview pane with data, but also the question and 
+answer rows, and detailed explanations. Additionally, it will display radio button selections, over on the left-hand
+side of your screen. Clicking the 'R' button calls the displayReviewQuestion (QuestionSuper questionObject) method at the bottom 
+of the BrainTester3.java class (beneath the constructor) and formats and displays a question's answers, etc., for review). 
+
+Now, these cumbersome radio buttons labeled 'R' are concrete JRadioButtons, though it is possible to dynamically code
+the JTable in such a way as to paint those buttons into the table columns. However, if this app is not going
+to be used, that project (headache) will have to wait for another day.   
+
+CLASS: NONE
+
+MISCELLANEOUS: ------------------------------------------------------------------
+
+
+ADD THIS NOTICE: SEE BELOW IN SECTION TODO STUFF RE THINGS TO BE DONE THAT
+WON'T BE UNLESS SOMEONE USES THESE APPS.
+Thread safety
+Injection attacks
+Dynamic sizing of tables
+Dynamic preview/paint of radio buttons in tables
+In Tester, changing JComboBox exam labels like in Builder
+restoreSelection() stuff
+
+
+Describe sections next------------------
+ 
+ 
+
+
+
+
+UpdateFinalStudentExams updateFinalStudentExams = new UpdateFinalStudentExams();
+					System.out.println(
+							selectedExamIndex + " 1) selectedExamIndex - What does selectedExamIndex print? ____ ");
+					try {
+						updateFinalStudentExams.upDateFinalGradedStudentExams(selectedExamIndex, listOfQuestionsSER);
+
+
+
+
+gradeOnceListOfListsSER
+
+
+In Finish, the first if uses the gradeOnceListOfListsSER and profs masterlist of correct answers
+ to loop through each (profscorrect and student's selection lists) to grade each question and
+ set pass/fail in each anon object. (BUT IF I AM GOING TO REVIEW I MUST SOMEHOW SAVE THE SELECTION
+ SO WHERE IS THAT SET? In the action listener at very top of the constructor VERY, VERY IMPORTANT).
+ After the first bulk listOfQuestionsSER is loaded with anons then the number of pass++ is counted.
+
+.
+
+
+
+
+nope. 
+Displaying the correct answers is accomplished with a series of (Java 11) switch/case statements in 
+the 'Evaluate' section of BrainTest3.java. One switch is used for the correct answers, and another 
+for the incorrect answers. At the end of the second switch text field data is captured, assigned to String variables
+and formatted for a more readable, user-friendly preview in the large 'Evaluated Question Preview' pane.
+
+
+Quick summary. 
+ Begin loads up a listOfQuestionsSER, determiners immediate or bulk and displays first Q&Answers
+ 
+ In evaluate, if immediate, question is graded comparing boolean lists and the switch
+ is run to display after graded. Objects in listOfQuestionsSER have pass/fail set.
+ For bulk (the else), the student's selections are added to gradeOnceListOfListsSER (list of booleans) to
+ be used in evaluate.textfields
+ 
+ In Finish, the first if uses the gradeOnceListOfListsSER and profs masterlist of correct answers
+ to loop through each (profscorrect and student's selection lists) to grade each question and
+ set pass/fail in each anon object. (BUT IF I AM GOING TO REVIEW I MUST SOMEHOW SAVE THE SELECTION
+ SO WHERE IS THAT SET? In the action listener at very top of the constructor VERY, VERY IMPORTANT).
+ After the first bulk listOfQuestionsSER is loaded with anons then the number of pass++ is counted.
+ 
+ If grading was immediate, the else takes its listOfQuestionsSER and counts the number of pass++textfields
+ 
+ After the immediate else, there is but one listOfQuestionsSER, one created immediately in the evaluated 
+ button, and the bulk verson created in the Finish button. 
+ 
+ Next, using that listOfQuestionsSER percentages are calcualated, and pass/fail notices are given.
+ Finally, that listOfQuestionsSER is sent via updateFinalStudentExams.upDateFinalGradedStudentExams
+ (selectedExamIndex, listOfQuestionsSER) to class UpdateFinalStudentExams whre it is stuffed in the
+ triple nested outer/inner/listOfQuestionsSER list and saved in the STUDENTS_OUTERNESTED_TABLE4 table.textfields
+ 
+ Specifically, in upDateFinalGradedStudentExams() method the listOfQuestionsSER exam is added to the
+ innerMasterListOfQuestionsSER which is a list of exams, each exam represented by one listOfQuestionsSER.
+ Each innerMasterListOfQuestionsSER represents one exam, ie, Exam 1.
+ That innerMasterListOfQuestionsSER list of exams is set in the outerMasterListofMastersSER which
+ holds many innerMasterListOfQuestionsSER lists of exams. 
+ 
+ So the outer holds innerMasterListOfQuestionsSER exams, each representing one specific exam,
+ and each of those innerMasterListOfQuestionsSER holds one or more listOfQuestionsSER lists of questions.
+ 
+ Accordingly, listOfQuestionsSER exams can be taken repeatedly and stored/added to the innerMasterListOfQuestionsSER. 
+
+
+
+
+
+
+
+
+
+
+
+THINK IT THROUGH
+BEGIN BUTTON - returns the listOfQuestionsSER from the profsfinal table
+evalGradeImmediately = true and false were set in the global variable, but
+where is evalGradeImmediately set? It's not, and is used next in the Evaluate button.
+Then the listOfQuestionsSER is sent to updateGradedExams.updateGradedExam()
+	where it is updated/saved to FINAL_GRADED_EXAMS_2 table.
+Then global listOfQuestionsSER is returned with retrieveGradedExams.getGradedExam(selectedExamIndex);
+So FINAL_GRADED_EXAMS_2 has the listOfQuestionsSER
+Then using that listOfQuestionsSER Q and As are set in the textfields.
+
+End of begin button 
+
+So I think the listOfQuestionsSER is saved with each question to the UpdateGradedExams class
+FINAL_GRADED_EXAMS_2 table, and then immediately retrieved from the RetrieveGradedExams and
+use it to set Q and Answers (seems duplicative). 
+
+So logically, the bulk evaluate would pull up this listOfQuestionsSER and cycle though all
+questions and grade them. 
+But, each listOfQuestionsSER has to be stored in one of those big master lists which eventually
+get stored in an outer master, I think.
+
+EVALUATE BUTTON
+Capture radioButtonSelections
+Get theProfsCorrectAnswers as per the particular question
+
+// FRIDAKY IN A NUTSHELL
+// FRIDAY, SO IF IMMEDIATE, RUN THE SWITCH, SET PASS/FAIL IN THE OBJECT
+BUT IF BULK IN THE ELSE ADD THE STUDENT'S SELECTION TO gradeOnceListOfListsSER
+
+//  FRIDAY BEFORE THE SWITCH SHOULD I BE SETTING THE listOfQuestionsSER IN THE DB?
+Then, if immediate evaluation do the switch/case things (NOTICE THAT GTHE BULK DOES NOT USE THE SWITCH,
+SO MAYBE I DON'T NEED THE SWITCH AT ALL USE THE SAME TECHNIAQUE AS THE BULK APPROACH? I'M NOT
+TAKING OUT THE SWITCH. I PUT TOO MUCHWORK INTO IT.)  
+but if not immediate (bulk) add the selection to global gradeOnceListOfListsSER.add(radioButtonSelections);
+BUT!! it seems like gradeOnceListOfListsSER.add(radioButtonSelections) should be set in a db table and 
+returned so as not to lose the selection
+but somehow it gets set in STUDENTS_OUTERNESTED_TABLE4 cause it is read back in getGradedOnceInnerMasterListSER() of 
+the UpdateFinalStudentExams class. Or maybe it is not. I can't find where it is read back.Is it even used?
+So I'm guessing something calls
+.. where else is STUDENTS_OUTERNESTED_TABLE4 used to set gradeOnceListOfListsSER ??
+setOuterMasterListOfMastersSER() of UpdateFinalStudentExams class uses STUDENTS_OUTERNESTED_TABLE4
+
+End of Evaluate button
+
+FINISH BUTTON (BUT IF I AM GOING TO REVIEW I MUST SOMEHOW SAVE THE SELECTION
+ SO WHERE IS THAT SET? VERY, VERY IMPORTANT.)
+
+So in evaluate the selection for bulk is added to global gradeOnceListOfListsSER, which must be
+added to a table somewhere for safe keeping and returned. textfields. 
+Then, at beginning of finish in the bulk section (if/else) the profs correct answers 
+are pulled out of the masterListOfProfsCorrectAnswers and compared to that gradeOnceListOfListsSER
+and if they are equal then the listOfQuestionsSER's anon object calls setPassFail("pass") and setQuestionGraded(true)
+on that anon. Then the number of passing pass grades are counted++, and in the else the same, the number of passes are counted++ 
+for the immediate group are counted.
+
+Now I get it. Then, pass/fail percent grades are calculated with dialog messages re same. 
+And then it calls UpdateFinalStudentExams updateFinalStudentExams = new UpdateFinalStudentExams() with
+the new listOfQuestionsSERs that now have pass/fail info. 
+But are the percentages stuff also stored in those listOfQuestionsSERs?
+
+upDateFinalGradedStudentExams() of UpdateFinalStudentExams class is big cause that is where those 
+ listOfQuestionsSERs are stored. The graded boolean lists doesn't seem to have any more use
+ but I AM GOING TO STICK IT IN THE DB !!!!!
+ 
+ 
+ // FOR FRIDAY 4-10-26
+ 
+ FINAL PRODUCT 
+ 
+ Quick summary. duplicate
+ Begin loads up a listOfQuestionsSER, determiners immediate or bulk and displays first Q&Answers
+ 
+ In evaluate, if immediate, question is graded comparing boolean lists and the switch
+ is run to display after graded. Objects in listOfQuestionsSER have pass/fail set.
+ For bulk (the else), the student's selections are added to gradeOnceListOfListsSER (list of booleans) to
+ be used in evaluate.textfields
+ 
+ In Finish, the first if uses the gradeOnceListOfListsSER and profs masterlist of correct answers
+ to loop through each (profscorrect and student's selection lists) to grade each question and
+ set pass/fail in each anon object. (BUT IF I AM GOING TO REVIEW I MUST SOMEHOW SAVE THE SELECTION
+ SO WHERE IS THAT SET? VERY, VERY IMPORTANT).
+ After the first bulk listOfQuestionsSER is loaded with anons then the number of pass++ is counted.
+ 
+ If grading was immediate, the else takes its listOfQuestionsSER and counts the number of pass++textfields
+ 
+ After the immediate else, there is but one listOfQuestionsSER, one created immediately in the evaluated 
+ button, and the bulk verson created in the Finish button. 
+ 
+ Next, using that listOfQuestionsSER percentages are calcualated, and pass/fail notices are given.
+ Finally, that listOfQuestionsSER is sent via updateFinalStudentExams.upDateFinalGradedStudentExams
+ (selectedExamIndex, listOfQuestionsSER) to class UpdateFinalStudentExams whre it is stuffed in the
+ triple nested outer/inner/listOfQuestionsSER list and saved in the STUDENTS_OUTERNESTED_TABLE4 table.textfields
+ 
+ Specifically, in upDateFinalGradedStudentExams() method the listOfQuestionsSER exam is added to the
+ innerMasterListOfQuestionsSER which is a list of exams, each exam represented by one listOfQuestionsSER.
+ Each innerMasterListOfQuestionsSER represents one exam, ie, Exam 1.
+ That innerMasterListOfQuestionsSER list of exams is set in the outerMasterListofMastersSER which
+ holds many innerMasterListOfQuestionsSER lists of exams. 
+ 
+ So the outer holds innerMasterListOfQuestionsSER exams, each representing one specific exam,
+ and each of those innerMasterListOfQuestionsSER holds one or more listOfQuestionsSER lists of questions.
+ 
+ Accordingly, listOfQuestionsSER exams can be taken repeatedly and stored/added to the innerMasterListOfQuestionsSER. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Next, study the upDateFinalGradedStudentExams() and the inner and outer masters 
+
+
+
+
+
+
+
+
+
+
+
+EVALUATED QUESTION PREVIEW
+NEXT/PREVIOUS
+FINISH
+The 'Question Preview - Exams - Review of Questions' panel
+The 'Review Most Recent Graded Exams' pane
+The 'Review Most Recent Graded Exams' panel
+The 'Review of Questions' table
+The top horizontal review of additional question information table that needs a name or label
+h2 DATABASE TABLES USED 
+
+
+
+
+TODO LIST++++++++++++++++++++++++++++++++++++++++
+
+gradeOnceListOfListsSER.add(radioButtonSelections) should be saved to a table 
+after each question is evaluated!! Or those selections might get lost. very important.
+Remember it is adding a boolean list to a list (not a  SERlist)
+
+DANGER DANGER DANGER- How can Tester have access to GetProfListFromDB in Builder top access the 
+second profsfinal table?? I NEED A NEW CLASS IN TESTER THAT REPLICATES GetProfListFromDB
+
+In retrieveGradedExams.getGradedExam(): Also need another
+duplicate class of BuilderDBTesterUtility if I want to get the rowcount!! 
+
+
+Creator should in Builder? or somewhere be able to modify these exam labels 
+in the JComboBox. Do I do it like in Builder and limit who can access it? And 
+administrator only dialog access point? Pretty important, but not necessary 
+unless and until they want this thing.
+
+
+
+You can't just click on a finished exam if none has ben taken
+so use a validation if rather than throw a org.h2.jdbc.JdbcSQLNonTransientException: No 
+data is available [2000-240] exception
+
+// For multiple answers option, undo the group button thing ??? But that would require
+// someone changing the code a BUNCH of times. README TODO
+
+// Lots of work in QuestionSuper weeding it and removing the many
+// methods and variables that are not used. READ ME TODO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1260 @@
+ToDo for BrainTester3.java - copied from comments at the top of BrainTester3
+
+
+9-3 - At the end of my false preview code should I set the following back to ""?
+
+
+// 8-1 NOTHER PROBLEM - If I'm in the middle of taking an exam and click Exam 2 which does not exist it tells
+me so, but then if I leave Exam 2 selected and continue with my exam and click Evaluate 
+it throws an indexoutofBounds exception. FIX THIS!! 
+
+// DANGER DANGER MAJOR CHANGE HERE 8-3 In the begin exam button I was pulling up the serlist from the Tester4 table the second
+table, but not using it so I commented it out and it worked fine without it as I
+used the serlist version from the DisplayExam table, so make 
+changes to the ReadMe file to reflect this cause I'm telling them the 
+serlist is coming from the second tester table, not good!!! But make sure.
+
+// 8-1 I think I fixed it by resetting selectedExamIndex to selectedExamIndex = currentExamIndex;
+currentExamIndex = selectedExamIndex; sets it originally. 
+
+// 7-11 Brianhead Sat
+
+IMPORTANT -  7-31 Friday - Maybe take out the (F) from the switches? 
+
+7-29 BRYCE DON'T LET THEM SAVE MORE THATN 10 EXAMS. DO A DELETE OR 
+removeFirst() if size is greater than 10
+
+DANGER DANGER 7-30 HUGE BUG. WHEN I STARTED AN EXAM I COULD CLICK REVIEW AND
+IT LET ME AND CLICKED REVIEW BUTTON AND IT FILLED UP MY TEST FIELDS AND WIPED
+OUT THE TEST I WAS TAKING. !!!!!!!!!!!!!!!!1
+
+// DANGER AGAIN, MUST NOT LET THEM BE ABLE TO REVIEW ANYTHING WHILE TAKING THE EXAM
+AND RIGHT NOW IT IS ALL SCREWED UP because sometimes it saves the exam being 
+taken and other times not, and you can click Begin Exam and start all over.
+
+SOLUTION MIGHT BE - to test when selecting say Exam 1 for review to test
+to see if examstarted value and if true then message can't review anything while
+you are in the middle of taking an exam. Then test for if exam finished.
+Where were these values set??? But that won't work if those values have
+not been set, but I think they were!!
+
+
+// danger, 7-30 - and somehow i threw another nullpointer that wouldn't
+let me set the date time exam taken cause serlist was null. LOST !!!!!!!!1
+
+// 7-29 danger even though question 5 haw not5hing in there it shows me
+when taking test all of a different question. 
+
+// danger danger - oh my 7-15, now when I take a second exam it shows
+that i only took one exam so it's not incrementing?
+
+Soon? major job of cleaning up all code, removing all printlns, decide if I need
+to comment out the flow, redo the s to bring it up to snuff, and the faqs,
+And top of each class needs a comment about what the class does - copy some of 
+that from the READMes. 
+
+// ****** I really need to fix WindowBuilder and Eclipse by backing up
+big time all files, hard back up, 4 places, then uninstall everything
+related to Eclipse then reinstall. And hope that works. 
+Then trhy alll ovder to export executable jar, and then if that
+works, do a hard backkup of Db when it contains the exams and questions
+and be able to recover easily. And stick the 
+jar on github.  and make pretty both GUIs. 
+And always keep testing and try to break it. 
+
+// 7-11 NEXT BIG POSSIBLE PROJECT: Use Pri9nt button 
+like the Builder and Tester exam labels/captions pop up list maybe I can
+display all exams taken in a table??? Nice touch. 
+But the problem is I need adjustable table, not fixed. How to??
+1) Need a class to hold state like ExamComboLabelsTester
+2) Need another class with methods like these found at the bottom of 
+BrainTest3.java, a) loadComboExamLabsB3() b) setComboLabelsB3(), 
+c) getExamComboLabelsB3, and/or d) rowCountComboLabelsB3()
+although it depends on the code requirements. 
+
+// But this won't work until I fix WindowBuilder. Won't parse.
+See Print button
+
+So use the Print button instead because it already has an ActionListener
+Problem is they are going to want to click on an exam and then the
+question buttons but I can't do that now. That's some real work. 
+
+
+7-4 but how does deleting an exam or question affect all things including Master of Profs correct answers?
+This is crucial over in builder. 
+ 
+ 
+
+NEXT 6-29 mONDAY - CLICK EVERY BUTTON
+
+// 7-1 WHAT SHOULD I put in No Topic column of the horiz table?
+
+I can't figure out how to get focus for the password thing so leave it.
+
+
+// 6-29 Maybe I do need to use the  new CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1 for 
+immediate eval like grade once. Then I can test it and if it is null they
+probably jumped from Begin to finish. 
+ --- At the top of Finish you would have to do an if(immediate) or if(gradeonce) to
+determine which list to test. 
+
+2) And, again, those buttons again ver table won't clear out completely!!!!!
+
+// Rethink tool tips. They might be useful even if annoying. 
+
+// the horiz table should not have a topic cause only questions have topics,
+// so what should I change it to???
+
+DANGER DANGER so this is a problem because a student might wish to delete
+all exams but that outermaster still has those inners still in therem so 
+must remove all inners from the master when deleting from Tester?? I don't know.
+
+// DADGUMMIT. 6-13
+POSSIBLE TODO - gradeOnceListOfListsSER.add(radioButtonSelections) should be saved to a table 
+after each question is evaluated!! Or those selections might get lost. very important.
+Is this true? Is saving each add() to the db necessary? It's in memory and will 
+get lost if shut down, but there is no going previous and the must answer all so
+does it really matter? It does if the student pauses the exam for lunch and returns
+in which case whT THEY TOOK COULD BE LOST
+// So I would need another table dedicated to gradeOnceListOfListsSER and just call a setter
+and getter after each add, and an if null INSERT IN THE Begin Exam button?
+
+// I might have to get rid of the name validation. Too much of a hastle. Because if
+you go back to review you have to set a new name all over again to get in and that
+sets the object's name all over again. 
+
+
+DANGER DANGER, CAN'T display previously selected buttons IN PREVIEW PANE.
+// //DANGER DANGER, THIS WON'T WORK. LIKE IN BUILDER THE ADDITIONAL TEXT
+		// INFO WILL SHIFT THE BUTTONS OUT OF PLACE 
+		// SO MUST REMOVE THE CARET STUFF AND BUTTONS IN THE BIG PREVIEW PANE.
+		// but 6-18 I tried and it wouldn't let me like it did over in builder.
+		
+		
+// DO THIS. 6-14 Need a field that says how many questions in this exam. Done, textFieldQNum.setText(qNumber.toString() + "/" + listOfQuestionsSER.size());
+// but I can't shrink the numbers ie. 1/2 to fit in the field, it won't parse so do that later.
+
+// FINISH TESTER FAQ AND README
+
+// Oracle license
+
+// Start drafting 3 exams with 10 questions each.
+
+// LIMITED FIXED AND DONE FOR THE FIRST MESSAGE IN BUILDER (say what?). But I did this over in builder in the main method.
+// Question: // But do I need a new prefs for each dialog? Because I will have 
+	// multiple confirmdialogs on this page.
+	
+// Pop up message to use test editor/copy and paste and DON'T SHOW THIS MESSAGE AGAIN. Simple if
+// with a boolean? But I need a second prefs
+// And which pops need the DON'T SHOW THIS MESSAGE AGAIN checkbox?
+// DONE MOSTLY - Don't show this message again is still buggy re the prefs.clear(0 buttons// good enough for now.
+
+// Display "Select an Exam" string in the begin combobox and see if that 
+// is a huge problem with all other indexes cause it would make index 0 become index 1, etc.
+// Is there any way to add more exams dynamically in the combobox? Maybe
+
+
+
+
+++++++++++++++++++++ DONE STUFF BELOW THIS LINE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+
+// FIXED, I HOPE WITH 2 IF-ELSE CHECKING FOR NULL. 8-3 DANGER DANGER I CAN'T SEEM TO FIX THIS. WHEN i CLEAN OUT ALL TABLES FOR
+A FRESH START AND CLICK Exam 1 and it says no, then click Number of Exams I get a 
+Cannot invoke "java.util.ArrayList.size()" because "this.this$0.outerMasterListofMastersSER" is null
+	at main.java.BrainTest3$5.actionPerformed(BrainTest3.java:778)
+	And the same problem if I click Delete Exam
+
+// I THINK FIXED - 8-2 now if I select Exam 2 which has not been taken and I'm thus notified,
+and then a button it throws null pointer for non-existent Exam 2 so must block that serlist
+ 
+Next 7-4 - try adding another question now. 
+
+
+7-4 Add to the ReadMe tester that when an exam is taken the results (the srlist) is added to
+the 5th outer table with this code in the upDateFinalGradedStudentExams() method of 
+the UpdateFinalStudentExams class. The problem is that row that gets added to the 5th outer when 
+an excam is created. I need it there, but it gives me that first null object so I have to test if that is
+there [innerMasterListOfQuestionsSER.get(0).get(0) == null)] and if it is do a set to
+set the new serlist there, or if it is not null, then add it it one after the other. 
+Very important and it took forever to figure this out. 
+
+if(innerMasterListOfQuestionsSER.get(0).get(0) == null) {					 
+				innerMasterListOfQuestionsSER.set(0, listOfQuestionsSER);
+				System.out.println(innerMasterListOfQuestionsSER.size() + " innerMasterListOfQuestionsSER.size() nnhfh46");
+			} else {
+				innerMasterListOfQuestionsSER.add(listOfQuestionsSER);
+			}
+
+
+
+
+Good news is I got rid of the nullpointer but it still shows one row in exam preview
+so how do I get rid of that? 
+And, Number of Exams still says there is one in there even though I deleted all
+over in Builder and nothing shows up in the horiz Tester preview
+But when I click Delete Exam that one goes away and clicking it does not throw a null pointer
+so maybe the problem is that when I delete all exams hard in Builder the last one remains?
+That doesn't make sense. Unless what Tester pulls up is that exam I created in Builder and
+the question I created and populated and that was brought up from profs tester table number 2?
+
+cont ...  so clicking number of exams calls this:
+if (outerMasterListofMastersSER != null && selectedExamIndex < outerMasterListofMastersSER.size()) {
+						innerMasterListOfQuestionsSER = outerMasterListofMastersSER.get(selectedExamIndex);
+						NumberOfExams = innerMasterListOfQuestionsSER.size();
+						textFieldNumExams.setText(NumberOfExams.toString());
+which calls the method below the constructor and that has one exam in it I took over in 
+the builder just now. 
+
+
+
+// ##########################
+// DANGER DANGER 7-6 I STILL HAVE THAT PROBLEM I THOUGHT I FIXED. But with a different twist.
+After I take exam 1 and it reviews fine, then add an additional question and take that
+same exam a second time It throws a nullpointer cause the serlist is null and when I review
+the exam I just took it shows a weird thing that says I failed and null/2 and that's a mess that
+must be fixed immediately. But it's the adding additional question I think that is messing
+things up so do it without adding additional question and see if that triggers things.
+Also, I always thought adding additional questions might be causing problemsd.
+
+// 7-6 Here is a possible bug. If I take an exam 1, then add a question and take it again
+might that be what is screwing things up because it is not the same exam? And when I compare
+and average the last 2 for average score maybe /??? That shouldn't screw thing sup. 
+
+
+
+DADGUMMIT - 7-3 MUST FIX THIS NEXT -  I THOUGHT I FIXED THIS SEVERAL TIMES. WITHOUT ANY EXAMS i CLICK
+Exam 1 for review and it throws nullpointer
+
+// HUGE PROBLEM 7-6 - So I created 2 exams with 2 questions and I took exam 2
+and that worked fine, but when I took exam 1 it said I passed but on review it says
+I did not take the exam and showed nothing. And when I clicked Finish it stayed green and didn't clear to ""
+It says exam has not been taken and if (listOfQuestionsSER == null) {
+
+But this above is caused by indexoutofbounds but where I do not know:
+[[], []] outerMasterListofMastersSER also important mklkprktobm906
+Exception in thread "AWT-EventQueue-0" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+
+FIXED - $$$$ SOLUTION I BET - And why is my average score 50% for both exams when I scored 100% both times? But now it works.
+But if I click away and back it clears up that weird null/2 thing. 
+But my average swcore is 50% because of that additional question and maybe the first
+time when there was only one question was graded twice cause the upgraded exam
+now has 2 questions, I bet that is it.
+So I'm averaging one exam with one question with the same exam with now 2 questions
+and the 1 question exam is throwing it and failing me and those null/2 thins???
+And it happened with both exam 1 and exam 2 doing the same thing. 
+
+SOLUTION 7-6 THEY CANNOT TEST the same exams that has different numbers of questions!!!
+
+Add to Readmetester and todo tester:
+
+DANGER  Must modify this below readme because if I create a second question for 
+exam 1 and in tester try to review it it pulls up the bogus null/2 cause I think
+it is pulling up a second serlist that is:
+[main.java.QuestionFactory$1@523fa660, null] listOfQuestionsSER kfkgit857
+
+IMPORTANT: When you test your exams in Tester it is essential that you test the same exam. 
+For instance, if Exam 1 has one question and you test it in the Tester, and then
+you return to the Builder and add an additional question to that Exam 1, and switching
+over to the Tester you take that same Exam 1 again it will crash the program. Why?
+Because during the review process Java averages the scores (stored in each object) for 
+the latest two exams. But you are essentially comparing apples to oranges, a 
+listOfQuestionsSER list containing one QuestionSuper object, with another containing 
+two, and you can't average null. Accordingly, if you add additional question[s] to an 
+exam you must delete the oldest taken-exam over in Tester before you take the exam again because 
+you only want to compare oranges. 
+
+
+// Nope. I reverted back to removeFirst() and commented out
+the average grade stuff. Next 7-7 don't let them compare apples and oranges.
+do a comparison of list serlist sizes and if they are
+not equal message the instructor that he needs to delete
+all rows in all tables and begin again with the new additional 
+questions. And to read the fAQ and readme (both of them?). 
+And I was right, I got a bad grade avverage score of 50% instead of 100%
+cause one of those compared was a null so a fail? But when I took
+it a third time both of the latest had 100% score so
+the average was correctly 100%. Therefore
+the solution might be to not let them compare those
+lop - sided serlists.
+And test it in Begin Exam 
+
+
+
+// FIXED - I JUST DON'T LET THEM DELETE THE LAST EXAM!!! 
+SOLUTION? Is my 7-7 problem when I delete ALL exams? cause deleting one of two seems to work.
+// FOUND THE PROBLEM. IT'S WHEN I DELETE ALL EXAMS THAT IT THROWS THAT EXCEPTION. 
+
+ FIXed 7-7 - Never let them delete the first exam taken.
+so try ... if size of inner is > 1 you can delete, else you can  not delete 
+// the latest exam. I tried doing that and ... this works.
+
+// FIXED - THEY CAN'T DELETE LAST EXAM. 7-7 Dadgummit, back to throwing indexoutofbounds in UpdateFinalStudentExams when I delete
+two exams to nothing, then take it again and exception thrown. 
+
+// MAJOR BUG fix next - 7-7 I took exam 1 2 times successfully but when I click exam 1 AND THEN 
+try and delete the first it says 'additional questions created successfully' which
+is crazy, and that is a builder thing as well. 	
+
+
+
+7-6 alot of tester problems talk is over in builder but
+when I delete an exam I forgot to set that new inner into
+the oiuter and back in the 5th table. look at deleteGradedRowInReview() 
+in dbtesterutility class
+
+		// 7-6 #################################################################################
+		// DONE 7-7, I think. 
+		// But don't I have to set this back in the 5th outer table?
+		// after all, when I take the exam I add it there, so shouldn't that
+		// be set to null? Or, that's not right, it won't be set to null
+		// but just removed froma list.
+		// And if I don't set it back in the 5th outer I'll be pulling up the 
+		//old inner with the deleted-in-tester version, not the pre-deleted inner
+		// that is still in the outer?
+		if(innerMasterListOfQuestionsSER != null && innerMasterListOfQuestionsSER.size() > 0) {
+		innerMasterListOfQuestionsSER.removeFirst();
+		System.out.println(innerMasterListOfQuestionsSER + " innerMasterListOfQuestionsSER oeicuie7c5");
+		} else {
+			JOptionPane.showMessageDialog(null, "There is no exam to delete");
+		}
+		System.out.println(
+				innerMasterListOfQuestionsSER.size() + " innerMasterListOfQuestionsSER.size() after removeFirst()");
+		return innerMasterListOfQuestionsSER;
+
+
+
+// FIXED. CHANGED MY MIND AND AM KEEPING removeFirst() code.
+DANGER DANGER here is my 7-8 problem. removeFirst() does not leave my null placeholders
+			// But does this remove my palceholders? 
+			System.out.println(innerMasterListOfQuestionsSER + " innerMasterListOfQuestionsSER 5f894584hhd");
+			innerMasterListOfQuestionsSER.removeFirst(); // must set to null instead
+			System.out.println(innerMasterListOfQuestionsSER + " innerMasterListOfQuestionsSER oeicuie7c5");
+			
+NOPE. DIDN'T WORK AND WAS A DISASTER SO REMOVED AVERAGE GRADE CODE 
+FROM THE HOriz REVIEW STAGE. So instead of removeFirst() set it to null instead, beginning 
+with index 0 the oldest, and then do a test of the size of that inner to see it that is smaller 
+or the same, in other words, with size() does it count the null placeholders? it would be great 
+if it did not because then i could just use size instead of getting a rowcount if that 
+is what I'm doing. Nope, it's using size() NumberOfExams = innerMasterListOfQuestionsSER.size(); 			
+			
+	
+// FIXED, FINALLY, YEAH!! I WAS COMPARING THE WRONG SERLISTS.
+// Not so fast. when I take the same exam with one question I get 
+that new pop-up message so the 2d table is being compared and it still has
+the old serlist with 2 questions. 
+
+Actually this is what I get:
+[null] previousListOfQuestionsSER  orit9485
+meaning, and it makes sense, if it's the first time I take
+the exam I'm pulling up a serlist with null cause I haven't
+stuffed a graded exam in there. Sonow what? I need a count
+of some sort, if something is null or count is 0 then 
+don't pop up the message ...
+How about if ... 
+
+// 7-11 - something else I forgot
+
+7-11 FIXED. I JUST MOVED CODE UP THAT TESTED A QUESTION FOR NULL 
+AN MESSAGED NO EXAM WITH NULL CAN BE TAKEN. problem So I deleted q 2 of 3 
+questions in exam 1 and in tester begin 
+it throws nullpointer: 
+Cannot invoke "main.java.QuestionSuper.getSizeLerListr()" because the return value of "java.util.ArrayList.get(int)" is null
+	at main.java.BrainTest3$6.actionPerformed(BrainTest3.java:1206)
+	But it is supposed to simply notify instructor that can't take an exam with null in it. 
+
+
+// Okay for 7-8 I've got a size 1 and 2 in Begin ......
+work on it .......
+
+// I think I FIXED THIS. 7-8 I think the problem is when I delete the exam it deletes the 5th table stuff, but then 
+that deletes the display table as well but I don't want to do that. I just want to 
+delete the student's graded exams, not the actual exams that exist in the display table. 
+So follow the delete train from starting here:
+insertInitialOuterNestedPlaceholders.setUpdateOuterMasterListofMastersSER(selectedExamIndex,
+	innerMasterListOfQuestionsSER, outerMasterListOfMastersSER, numberOfAdditionalQuestions);
+	outerMasterListOfMastersSER = insertInitialOuterNestedPlaceholders.getOuterMasterListOfMastersSER();
+	
+FIXED I THINK WHEN i REVERTED  BACK TO THE OLD removeFirst() and 
+commented out the averageGrade code in Finish. 7-8 And now it hangs again. I took an exam 
+and it worked, then deleted it to 0,
+but when I tried to take the exam again when I hit Finish I throws that darn
+[] dor8
+loei5949389d3n
+Exception in thread "AWT-EventQueue-0" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+*** So I'm right back to where I was. And the exception is thrown in the
+upDateFinalGradedStudentExams() method of UpdateFinalStudentExams  class
+
+When I delete an exam am I deleting my placeholder as well?	I DON'T KNOW. 
+
+DONE I THINK. REMOVED REFERENCES IN REVIEW TO AVERAGE SCORE. NEXT 7-11 7-8 
+IMPORTANT REMINDER Add to readme or remove references to averaging the last 2 scores since
+// I removed that. This is in the review phase with horizontal table.  
+
+
+FIXED WHEN I REMOVED AVERAGE GRADE CODE IN HORIZ REVIEW. Another problem 7-8 with my delete exam fix 
+If I delete 2 of 3 exams and then try to compare average grades 
+in the preview pane it obviously throws a null pointer, so do a 
+if( the last 2 exams are both not null, then do the averages. 
+
+DONE. // dang it, I took a second exam a failed but it says 100 percent pass
+
+
+I THINK 7-11 THIS IS NOT RELEVENAT ANYNORE CAUSE I SIMPY REMOVED REFERENCES 
+TO THE AVERAGE GRADE IN HOIZ REVIEW. OUCH, OUCH OUCH!!!
+FIGURED IT OUT. mY NULL PALCEHOLDER is gone and not null after I remove it when I
+delete the exam. But the problem is I need those nulls to use it, but
+I don't want it when I do a rowcount to display how many exams are left.
+
+DONE - Add to readme that last and first names are always set in the first anon object. Important!!
+
+FIXED f exam does not appear in the horiz review.
+- Last name doesn't set in review, or the first name
+lastname shows when I click the first review button, but not second buttons etc.
+in dfisplayReviewMethod this first name does not appear, but last name does.
+textFieldStudentFirstName.setText(questionObject.getStudentFirstName());
+
+// FIXED - Also, clicking previous and next in preview does not show the exam number
+
+// Fixed, I think. Previous button is all messed up. even if reviewing it won't let me go backwards 
+with a bogus message. getIsExamFinished() == false
+Evidently this never got set to true in Finish
+But it works fine for grade once, but not immediate.
+
+// FIXED - 7-1 BY SETTING selectedExamIndex to null and 
+testing for null in Previous and Next for situations
+where right after Finish they click previous or next without selecting an exam.
+ 7-1 problem with immediate - after I click finish I can do next and previous
+without selecting an exam and it works except the exam number does not appear.
+As for grade once, it has the same problem and does not require exam selection,
+but if I shut down the program and start it again it forces me to select an exam. 
+Solution might be to clear out the selectedExamIndex at the end of finish??
+
+FIXED - if serlist is null set field to "" Next, re Number of Questions 
+in Exam it shows 3 for Exam 1 but when I 
+click away it does not clear out that 3
+
+- Fixed, but no idea if Print command works.Print does nothing - how 
+to print a textpane in swing. the button is empty.
+
+FIXED - When I click Finish I need the start/end/duration to clear out as well !!
+FIXED - 6-30Clicking finish does not clear out the date to ""
+
+Fixed Next, when I click on Exam 1 review the date does not show up,though
+it did yesterday. immediate vs. grade once problem?
+
+Fixed - And date doesn't clear if I click away though horiz clears. so fix it.
+Fixed - And, when I close the program and then preview the date does not show up 
+so it is not getting pulled up from first anon object.
+FIXED - Which tells me that it is previewing what was set in the textfield
+but not what was gotten from the objec get(0)
+
+// FIXED - 6-30 And do not let them click Finish during review
+
+// NEXT PROBLEM 6-30, I can click Evaluate with out starting an exam or
+even selecting an exam to review. Not good. 
+
+// FIXED - 7-1 Must not be able to click Evaluate during review under any circumstances.
+It is telling me I have to pick at least one answer. Not good.
+
+// FIXED - new problem textFieldQNum is stuck on 1, the number next to the question. 
+It's like the qNumber is not getting incremented
+
+// FIXED - IN EACH BUTTON THE AT FIRST I SET qNumber = 2; AND IT WORKS GOOD SO FAR.
+Huge problem If I click 
+button 1 or 3 and then next I get Q count 4 and then 5. and 6.
+So If I select exam 1, then click next 4 times, then button 1 the bottom 
+Q count is 1 then 4, 5, and if Iget to the end and click button 2 and next I get 6. 
+So the qNumber keeps getting increased as I move around with  next and previous. 
+textFieldQNum.setText(qNumber.toString());
+
+FIXED - DANGEr DANGER - If I just click previous from next the qNumber is correct because
+I think it is decremented, but if I jump in using a radio button
+there is no decrementing. HUGE PROBLEM.
+
+// DONE - Near the bottom of Finish:
+// 6-29 So after you create 3 new methods in QuestionSuper set
+	// these three variables formattedStartTime, formattedEndTime, totalDuration
+	// which will be brought back up during preview.
+
+6-30 No need to --- make the rest of review buttons code same as 1 and 2
+
+DANGER DANGER - Fixed. 6-30 I just set the time end/duration in the
+grade once section (gradeImmediate ==  dalse) of the Finish section.Problem 6-30 with 
+grade once the end/time or date fields don't show up at Finish or in review. 
+
+// FIXED - 6-29 If I clilck Exam 2 preview which has not been taken it does not
+// clear out the horiz table for exam 1. So fix that next. 
+
+// 6-30 YES AND DONE - should the start/end/time fields be filled with preview? Were they saved?
+QuestionSuper does not save or get these formatted start/finish or total times. 
+
+// Finally got this to work. 6-29
+	textFieldStartTime.setText(listOfQuestionsSER.get(0).getTimeExamStarts());
+	textFieldEndTime.setText(listOfQuestionsSER.get(0).getTimeExamEnds()); // returns null
+	System.out.println(listOfQuestionsSER.get(0).getTimeExamEnds() + "end time is null 5454hfhftg32");
+										
+										textFieldTime.setText(listOfQuestionsSER.get(0).getTimeDuration());
+
+DONE - DANGER DANGER IMPORTANT // 6-27 don't forget to maybe set the gradeOnceListOfListsSER in a new table? Every time
+	a boolean list is added to it !!!!
+	// I really think I need to be able to stop taking the exam, or
+	// pausing, and then resuming so need a grade once table.
+	// But!!! Do I also have to do that with the immediate eval? Yes 
+
+//################################################
+
+// DANGER DANGER THESE NEW EVALUATE CLASS ETC NEED TO GO OVER IN TESTER
+// AND ONLY THE CREATE TABLE CLASS STAYS IN BUILDER. no, that's not true because 
+because the rowcount and delete buttons are in builder so need the EvaluateAnswersLists 
+class in Builder also. So leave it in builder.
+
+//6-27 - When I do an immediate evaluation is that selection stored in 
+an ArrayList<ArrayList<Boolean>> gradeOnceListOfListsSER? If so, that's the
+// only object I would need to save in the table. No triple-stuff, just this double
+and call it gradeImmedListOfListsSER
+// And, copy the latest table, the CreateOuterMasterAnswers_Table1 and 
+modify it. Call it CreateEvaluationTable
+CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1
+
+Class: 
+
+//#################################################
+// FIXED - DANGER DANGER. 6-27 - IF SOMEONE AFTER BEGIN EXAM CLICKS FINISH WHAT KIND OF
+gradeOnceListOfListsSER WILL HE PULL UP?? iT WILL THROW INDEXOUTOFBOIUNDS EXCEPTIONS
+OR NULLPOINTERS
+ Must warn to answer at least one question, but how to force them to answer all
+ questions? Should I frontload the gradeOnceListOfListsSER with nulls so 
+ the nulls are compared to the profs correct answers??? 
+ If they jump straight to Finish test to make sure one question is answered? Or does
+ that even matter. Just warn them that we know you jumped to finish and it's an automatic fail.
+ 
+ 
+
+// DONE - Hold on now, I don't think I need to save the immediate eval to 
+the new table  table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1 because it messes up
+the gradeonce part of it and the pass or fail has already been set in each
+object where taken, and closing the laptop for a spell didn't seem to 
+make any difference and I could resume where I left off. Of course if I shut
+off the laptop and go to lunch, well. That will wipe out all in memory? But
+// who goes to lunch during an exam? 
+
+// FIXED Solution? gradeOnceListOfListsSER.size() is only 1 so it is only
+// testing the first question which I got correct but why
+// does it tell me I got 3 right?
+// 6-28 SO INSTEAD OF AN INSERT SET NULL PLACEHOLDERS IN gradeOnceListOfListsSER
+// DEPENDING ON THE SIZE OF THE serlist? And then do an UPDATE so if it does run
+// to Finish from Begin it shows a fail for all 3? Do this over in Evaluate, Not Finish
+
+// But does comparing a correct boolean to null with equals give me false? yES, so 
+// keep insert cause those not inserted (null) will evaluate to false.
+
+// 6-28 note in QuestionSuper I changed String passFail = "FAIL"; // CHANGED from pass to fail on 6-28
+
+// FIXED okay, so 6-28 I fixed most of this below. The problem was the default of getPassFail was Pass
+so I changed it to Fail and that worked. So I do not have to insert null placeholers
+in the gradeOnceListOfListsSER and I can continue to do inserts, not updates. And
+// no changes to immediate eval, and no need for immediate eval, for now, to pull up
+the masterofCorrect answers from the new database. That I can tell.
+
+
+// FIXED DANGER 6-28 So I did an immediate, clicked Begin and then jumped to
+Finish and it says I passed all 3, but in the review it shows 
+I scored 0.00%. But in the vert is says I passed. Is it pulling an
+old exam? 
+// Maybe at Finish test listOfQuestionsSER.get(qIndex).setQuestionGraded(true);
+isQGraded = listOfQuestionsSER.get(qIndex).getQuestionGraded();
+
+// FIXED But when I test gradeonce from begin to Finish it catches it and
+says I must do at least one evaluation but then when I click
+Finish it says I passed everything. So the problem is in Finish.
+
+// *** DONE 6-29 Next 6-28 - Remember to change the ReadMe to reflect how gradeOnceListOfListsSER and
+ the one for immediate eval is set and get from the latest newest 
+ table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1. Change it in Begin, Evaluate and Finish
+ // 
+ // DONE 6-28 And don't forget to add the create table class to BUILDER readme
+  and also that new table to the other sections 
+ 
+ 
+ //  FIXED DANGER 6-28 BUT THERE IS ANOTHER PROBLEM because in one of the loops where I
+ looped masterListOfProfsCorrectAnswers.size() times, but inside I was pulling anon
+ objects from the listOfQuestionsSER which had a size of 2 anons, and that third
+ loop threw an indexoutofbounds. So I had to add another question and
+ therefore, the loop limit must be no bigger than the listOfQuestionsSER, so
+ how to do that, or maybe use the listOfQuestionsSER as the size? 
+ I solution 6-28 think I will change the loop limiter to listOfQuestionsSER because
+ I don't use the masterListOfProfsCorrectAnswers inside it. And
+ that seems to have fixed it and it works fine. 
+
+If I'm pulling the outer from the InsertInitialOuterNestedPlaceholders then all I have in there
+will be null so I can't get() anything in there, right?
+
+############################################################# 
+
+'Number of questions in exam' field at top does not reflect true number
+when exam s are deleted. still 2
+// 6-15 if no exams have been taken and I click one to review it
+throws indexoutof bounds listOfQuestionsSER = innerMasterListOfQuestionsSER
+									.get(innerMasterListOfQuestionsSER.size() - 1);
+									
+DANGER DANGER 6-18								
+obviously because innerMasterListOfQuestionsSER.size() is 0 and -1 no good
+But I think my problem is Inever deleted the triple outer master from the 
+db so size is still 2 which let me in. 
+SO DELETE THE MASTER FROM THE DB IN BUILDER if you are going to start from 
+scratch by deleting all exams. 
+
+3) i THINK FIXED 6-20 and if I click Exam 2 which has not been taken and click a button I get Index 1 out of bounds for length 1
+	Is it because the selectedExamIndex was null? Can't be. 
+	
+	// Problem is 2 exams are being thrown into the inner when it should be one, 
+	so it evades the if. So I have 2 serlists in the inner instead of 1
+
+// Another builder problem. if I empty everything and click the number display it throws
+// an indexoutofbounds. Is this a builder problem?
+
+// FIXED I THINK 6-27 TWO BIG PROBLEMS - NEXT, FIND OUT HOW TWO SERLISTS GET IN THE INNER
+1) fixed?? I think. DANGER DANGER - 6-20 When I start from scratch and take first exam it throws 2 in there and then
+a nullpointer re the percentgrade thing. 
+
+// FIXED but check for 6-20 DANGER AGAIN. I'M STILL THROWN NULLPOINTER ON THE SER LIST IF I
+DELETE ALL EXAMS AND AFTER I ENTER PROGRAM CLICK the Preview Exam 1. 
+but when i clicked exam1 again it showed number of exams is 1 and rows 1 so I
+deleted it and all is fine. So how or why didn't that last
+exam get deleted?
+
+// 6-20 danger now I can't delete any exams !!!
+
+danger If I deleted just question 1 or any of them the test can't even be taken. Why didn't tester catch that? 
+I think it does 6-27.Because
+all 3 were there and it's the profsmaster that had the missing booloean list
+
+// 6-19 // DONE AND FIXED. I FORCE THEM TO CREATE Q 1 FIRST. Nope, I changed this
+// so they can create whichever question they want first.	
+
+// NEXT PROJECT 6-27  But wait, the horizontal table DOES  clear, but not the
+// vertical until you click away and back. So when I delete my last exam taken, 
+say Exam 1, the horiz table should clear but it
+	does not so fix it. And, when I delete it deletes the oldest so the values in the 
+	horiz table will remain there until the end, the last one is gone, at which 
+	the table must clear to nothing "" !!!
+	
+*******	// Leave here until fixed.  I think I figured out the 6-19 problem of how a second question is 
+added and is size of 2 instead of 1
+	// and that is because when I re-create the deleted question with Create Exam question it inserts 
+	it into the serlist instead of updating it !!! So when I call create that question I need to go probably
+	into the factory and do an update of that ser list instead of an insert and check it with
+	an if, if (call it from dispay exam) the slot is null, then do ... wait, can I do an update on 
+	a null in the serlist? Or can I insert it into that null slot??? I could be wrong here 6-22
+	
+	// Leave here until fixed. When I click Finish I'm inserting that question answer instead of updating the null ie.
+	[[null], [main.java.QuestionFactory$1@63bb0c86]]innerMasterListOfQuestionsSER utytutytu74
+	
+	
+	
+
+// #############################
+// DANGER DANGER 6-22  	 taking the 6-21 exam 1 a second time throws indfexoutofbounds
+[[false, true, false, false, false], [false, false, true, false, false]]masterListOfProfsCorrectAnswers kfi857g
+and I can tell I'm  missing the first question. So why didn't the first recreated question make
+it into the masterlist? OH, THIS IS MY PROBLEM THAT I MENTIOND. WHEN i DELETED THE FIRST QUESTION
+ALONG WITH IT WENT THE PROFSMASTERLIST AND RECREATING 2 AND 3 ONLY ADDED THOSE TWO BUT NOT THE FIRT
+SO HOW IN THE WORLD CAN i add the profs master of correct answers when recreating question 1?
+
+// IMPORTANT *** 6-25 And what if in either case the don't even bother to Finish, I would need to remove
+that triple-outer from that newest eval table, or test in the begin button to make
+sure that triple outer in the not there and there is no row so check row count
+and delete the row at the very beginning of each begin exam
+// ##########################
+
+
+// 6-22 Solution? Should each anon object gettheir own profsmastercorrect? After all, each time a question
+is created it changes the original mastercorrect list by adding to it. But if I delete, say, the first 
+question, and change it how is that reflected in all the other mastercorrects? Or should all get the 
+same mastercorrect and every time a question is changed or deleted or added all copies of that one
+master correct are updated? A simple loop might do that. So find out where the mastercorrect is created and
+set and stick a loop in there somewhere that updates all other anons, but those have to be tested 
+for null. Follow create exam.
+
+
+
+DANGER DANGER, BUT WHAT IF THE FIRST QUESTION CREATED IS NUMBER 2 OR 3? FORCE THEM TO CREATE 
+	// QUESTION 1 FIRST 
+
+// Still a problem 5-13. Later. 4-26 Here is another headache, but minor compared to the others. 'Topic' won't clear to "" when clicking from exam 2 to exam 1
+// if Exam 1 has 1 question and Exam 2 has 2 questions. STUMPED.
+table.setValueAt("", 0 + 0, 0);
+						table.setValueAt("", 1 + 0, 1);
+						table.setValueAt("", 2 + 0, 2); // this is topic but it won't clear to "" when going from exam 2 to exam 1
+						table.setValueAt("", 3 + 0, 3); // empty misc
+
+ 6-14 BIG PROBLEM. NOW I GET 3 POP UP MESSAGES IF THE REVIEW EXAM HAS NOT BEEN TAKEN. 
+ AND I ONLY WANT ONE
+ 
+ // 6-15 this is crazy. Now my problem works fine, not throwing nullpointers and not
+ getting that second inner added. what gives?
+ 
+ // but next problem is if I get a 'no such exam exists I get a partial
+ readout f the table with a few cells missing but I want it to clear it completely. 
+ maybe clear the tables right before the message?
+
+So maybe my inner should always only have a size of 1?
+But I thought they were added to the inner, so whn I pull it up how can the inner
+only have a size of 1? Or shojld it be selectedExamIndex -1?
+#####################################################
+ALL FIXED. CHANGED AN ADD TO A SET (but then changed it back to add
+
+// STOP not so fast BUT NOW THAT I HAVE SIZE IN IN THE INNER it is still 1
+// after I create a second exam. My listOfQuestionsSER is null and size of inner is 1 when
+// it should be 2.  
+// 6-17 I think fixed because I added a serlist to the inner
+instead of setting it where the one null was in the UpdateFinalStudentExams class after
+I clicked Finish.. But how did
+I get one in the outer???
+There is a problem here is the proof. 
+The outer is getting an extra inner and
+the inner is also getting an extra inner. #################
+1 outerMasterListOfMastersSER.size() mkryrteg89u9ue0rut
+[[[null], [main.java.QuestionFactory$1@4172a30a]]] outerMasterListOfMastersSER ;ldof65
+2 innerMasterListOfQuestionsSER.size()
+[[null], [main.java.QuestionFactory$1@4172a30a]] innerMasterListOfQuestionsSER
+Bottom of Finish button 
+
+// In the new intouch version 6-4-26 Thur
+
+// DANGER DANGER. in all of those classes with trywithresources I failed to implement close()
+
+// 6-17 HUGE PROBLEM. I TH0OUGHT IT WAS FIXED but now when
+I take an exam it throws a second ecxam into the inner again and I tested it
+// and that doesn't happen when I create the question so it must happen
+when I grade it and that sets another serlist in there.
+So get an inner at the bottom of create an exam and test for that second serlist.
+And that will limit the scope of the problem.
+
+
+
+Maybe, but that is a Tester problem.
+// BUT CAN IT BE DONE FROM BUILDER? I DOUBT IT. (brought over from builder todo)
+
+// SERIOUS PROBLEM - Set the traverse order here in Builder and in Tester
+
+// PUT THIS IN THE TODO - TESTER PROBLEM, MAINLY. Display "Select an Exam" string in the begin combobox and see if that 
+// is a huge problem with all other indexes cause it would make index 0 become index 1, etc.
+
+// PUT IN TODO Is there any way to add more exams dynamically in the combobox? NO I DON'T THINK SO. wOULD NEED TO GO IN THERE AND CODE IT WITH exam 11 etc. 
+// Althoiugh the combobox names are now modifiable dynamically. 
+
+// wHAT DOES THIS MEAN? DON'T DO THIS NOW IT'S TOO MUCH WORK. IF THEY WANT THE APP THEN BUILD IT FOR THEM THEN, AT THAT TIME
+// THURSDAY 4-23-26 - Later cause looking at Builder I need another class with 5 methods, and a new table created, etc.
+// So wait and see if they want this before you go to all the trouble. 
+
+// Someday figure out how to build the table dynamically and paint new buttons in the 
+// first table and code that. !!!! Important. Readme todo if they want it later.
+
+// add padding to the table cells, and alignment READ ME TODO
+
+// TUE Must align data in table using DefaultTableCellRenderer 
+// but do that later READ ME TODO
+
+// DONE IN THE README TODO WARNINGS. Make sure db is not prone to injection attack - READ_ME todo list
+// thread safety todo in readme.
+
+// TABLE STUFF
+// readmeto - dynamically paint buttons in db (only if they insist and want this thing and
+// want more than 20 questions per exam. 
+
+// DONE - ADD THIS SOMEWHERE: Even though it looks like it, this app is primarily a learning tool, not a mere testing tool,
+// as you would find in a university classroom environment. 
+
+// re Tool tips, MAYBE NOT so many. THEY CAN BE ANNOYING AND GET IN THE WAY. Tool tips, lots of them. BUTTONS AND LABELS, AND THE FAQ, SPEAK FOR THEMSELVES
+
+I THINK I FIXED THIS WITH trywithresources.  IF IT'S A PROBLEM IT WILL RAISE ITS
+UGLY HEAD AGAIN.  5-14 BIG PROBLEM Database may be already in use: "C:/Users/mark/test.mv.db". Possible 
+ solutions: close all other connection(s); use the server mode [90020-240]
+
+// DONE Add in the ReadMe how this grade once works, ie. how the radioButtonSelections are added to the 
+// gradeOnceListOfListsSER and that is then looped through and compared to the masterListOfProfsCorrectAnswers
+// both of which are a list of a list of Booleans, each such list of Booleans representing
+// one question. 
+
+// DONE Also mention the readme and comment that the switch/case could probably be refactored into
+// some kind of a loop, which can be done later, but for now it will work. 
+
+// DONE WRAP EVERY relevant RESOURCE IN A TRY-WITH-RESOURCES
+
+// DONE NEXT 5-18 - use var with all class instantiations, where allowed. 
+// trywithresources where db is accessed
+// implements AutoCloseable where necessary and figure this weird thing out.
+
+// FIXED 6-14 DONE - BIG FLAW 5-23 - After I Finish and select an exam for preview or a preview button, if
+// I select previous it says I can't until I've graded or finished an exam. so need
+// to validate the Previous button that if not graded then that block occurs. 
+
+// DON'T BOTHER FOR NOW. Do I need to save start/end/time, or is that overkill?
+
+6-14 DANGER DANGER but I think I fixed this. - 6-14-26 I need to store the student's name in the finish button
+so when the exam is reviewed the name is always there. 
+Are last and first names stored properly in each exam? First anon object? 
+// are they properly called and set in the last/first text fields?/
+6-14 textFieldLastName.setText(listOfQuestionsSER.get(qIndex).getStudentLastName()); at every review button
+and every previous and next button
+
+6-13 DANGEr DANGER. DID I BUILD THESE APPS IN JAVA 11 OR 21? The compiler is set to 21 so must the
+student have 21 loaded up? Is this what is messing me up??
+
+6-8-26 SEE READ_ME_TESTER - DANGER DANGER METHOD: rowCountComboLabelsB3() - Returns a row count from table to determine 
+if an object in row 1 exists.
+0 indicates no object, and 1 indicates an existing object (and row) in the EXAMS_COMBO_LABELS_1 table.
+DANGER DANGER. BUT WHAT IF THAT OBJECT IS DELETED BUT NOT THE ROW????? must I test for that object
+as well????? but it shouldn't be a problem if there is no way to independently delete the object, 
+and there is no such way. 
+
+
+6-14-26 FIXED. RE NEXT I ADDED if (indexOfSelected == null && listOfQuestionsSER.get(0).getQuestionGraded() == false)
+which fixed it. do it for previous as well.
+However, should I use isTheExamFinished methods instead of getQuestionGraded?
+DANGER DANGER - 6-14 If I select review button and next it tells me I must
+first select an answer to move on. So need an if for that message. like if not graded
+then select an answer, but if not graded, then you must pick an answer
+
+// fixed. Solved in large part but not completely. 
+// DONE. ANSWERED. THERE IS NOTHING FOR THE CALLING METHOD
+// TO CLOSE BY THE TIME IT RETURNS BECAUSE THE CALLED METHOD
+// HAS CLOSED THE RESOURCE in a trywithresources. Problem is whether I need to 
+wrap those objects whose methods create a db connection, in addition
+// to those specific connections with a trywithresources. Important. 
+
+// DONE AND FIXED - 5-21 BIG BUG -  if I select nothing for first q, then next, then finish, it throws a nullpointer
+// in the finish button because gradeOnceListOfListsSER is null. Which means I still
+// must force them to evaluate to fill gradeOnceListOfListsSER. So next, force them
+// to click evaluate each time. 
+// But if they click finish and they get the message, can they still click evaluate as directed?
+
+// fixed Somewhere I threw an indexoutofbounds 2 of 2 somewhow with finish button. track it down. 
+
+// FIXED - If I select an answer the last question and skip evaluate and go straight to finish it throws a Index 2 out of bounds for length 2
+// bvut if I don't select an anwswer and go straight to finish it doesn't
+
+// FIXED - two evaluates with n o selection and a finish throws Index 2 out of bounds for length 2
+
+// ##############################################################################################
+// DONE AND FIXED BINGO I'M THROWING A THIRD LIST INTO gradeOnceListOfListsSER WHEN THERE SHOULD ONLY BE 2
+// GOT IT - 5-21 IF I CLICK ON EVALUATE MORE THAN ONCE IT ADDS TO THE gradeOnceListOfListsSER
+// So I must prevent them from clicking evaluate m ore than one time
+// ###############################################################################################
+
+// FIXED - latest - if I select inlast question then click next then finish it throws exception Index 2 out of bounds for length 2
+
+// DONE - if I select in last question, then evaluate, then next, then finish I get the Index 2 out of bounds for length 2
+
+//FIXED  if I don;t seklect anything in last question and click finish that last question is taken as incorrect, but
+// if I select and skip evaluate it throws that exception
+
+// FIXED and if I just click finish after begin I get a nullpoingter cause gradeOnceListOfListsSER is null, obvioiusly
+
+// DONE. MADE PREVIEW PANE GRAY - Do something to let them know with oncegraded that question was evaluated
+// because there is no way of knowing. 
+
+// DONE - remember 5-18 that in the jOptionPane.showConfirmDialog(null, setExLabelsPanel, a yes
+// returns 0 and no or x returns 1, and that was my big problem,
+// in addition to one misplaced } .
+
+ //  FIXED FOR NOW. i GET A NEW test.mv.db file whenever I select the exam from the combo. Is the
+ // only solution to shut down the app and start it anew? That works. 
+
+// DONE - HUGE!!! - RE FINISH BUTTON,  big problem. If I don't attempt and answer each question 
+// the listOfQuestionsSER.get(i).getPassFail().equalsIgnoreCase("pass")) throws a null pointer. Fix later.
+// but this is a big problem. Maybe force them to make a selection? I'm thinking that
+// it has to do with evaluate button which advances to the next anon? Or maybe the
+//  problem is with the next button which advances the qIndex??? Fix this, but later.
+// Maybe force them to answer a question and not provide option to return later? That
+// would be easiest, just do a simple if test. But, I give them a previous button. 
+// So if not evaluated but they click finish, can't I just give them a fail?? 
+
+// FIXED - 5-23 For Tuesday 5-19-26 - If I click Number of Exams when no exams habeen taken I 
+//get a No data is available [2000-240] Exception
+// so fix with ef/else validation
+
+// FIXED 5-19 IN THE SENSE THAT NO NULL POINTER IS THROWN. But the new problem is that
+// If I don't select an answer and go ahead and evaluate the exam is evaluated but it
+// only previews in vertical the question answered and the non-answer is avoided, and 
+// it does not preview in the horizontal.
+
+// FIXED - DONE - BIG DEAL. FIX NEXT. 5-23 still got a problem. If immediate I click evaluate with no selection it throws indexOfSelected; nullpointer 
+// But, I don't have that problem with the gradeonce version. And that's probably because indexOfSelected isn't used
+// with gradeonce. I tested for null in Evaluate after the selections are made. 
+
+//DONE -  In my switch/case I need to add that fifth row !!!
+
+// DONE - FIXED - PARTIALLY WRONG - ON THE HORIZONTAN AND VERT THAT IS ALWAYS THE LATEST EXAM
+// AND I'M DELETING THE EARLIEST EXAMS, beginning with the first taken, so that's okay.
+// BUT, what happens when I deleted the last one? That is where all tableds should be cleared.After I click the top button Delete Exam I need to clear out the horizontal and vertical tables
+// So after Delete Exam clear out the tables and set to ""
+
+//  DONE - DON'T NEED IT AFTER ALL AND TOOK IT OUT. In preview button 1 at the very end:
+// 5-20 I believe this works now. Move to other buttons next
+				noSelectionMade = listOfQuestionsSER.get(0).getNoSelectionMade();
+				System.out.println(noSelectionMade + " noSelectionMade in previewbutton 1 xhjog;pvmdj");
+				if(noSelectionMade == true) {
+					aGroup.clearSelection();
+
+// FIXED - 5-19 - the preview buttons are all messed up and serlist is null and throwing nullpointer.
+
+// DONE - Fix this next. And when I click next on the last question instead of finish, or if I 
+// click next or finish without answering there is no preview for that question 
+// in the v and h tables. so fix it
+
+// DONE AND FIXED - And if I keep clicking Next then none are graded and nothing is displayed
+// So how to force evaluation? How does that work with the last question if they skip right to Finish?
+// Or skip from the first question straight to Finish?
+
+// DONE - And don't forget to make the same changes to the gradeonce section in addition to gradeimmediately section.
+
+
+// DONE - DANGER DANGER (not really because the default for isQGraded is false so not a problem.
+// re immediate - 5-20 my big mistake is sometimes I don't select and click evaluate which sets graded to true, but
+// Sometimes I skip evaluate and click finish and that seems to be where graded is not set for that
+// no select question. So maybe in the Finish do an if validation that q must be graded true??
+// But, after it is finished, the default should be false, right, so not a problem?
+
+// 5-20
+DONE AND FIXED I THINK	// Shouldn't this be added in a loop? No, not here, in Finish.
+						// This just adds them one by one with each evaluation,
+						// The problem being if you skip evaluation going straight to finish
+						// the gradeOnceListOfListsSER is null. So check if that also happens 
+						// if you evaluate without selecting anything. If so, then the problem is
+						// not clicking evaluate each time, so that must be forced!!!
+						// So with immediate evaluation I can jump straight to Finish, but not
+						// with graded once evaluation. 
+						
+						
+						gradeOnceListOfListsSER.add(radioButtonSelections);// and do what with it?
+						//System.out.println("Bottom of Evaluate button, after the switch/case etc?");
+
+// DONE - At last question message that is is last question and to select, evaluate and
+// then click Finish. 
+
+// DONE. ALTHOUGH I ALLOW IT TO BE CLICKED BUT ONLY A MESSAGE POPS UP AND NOTHING
+// ELSE HAPPENS. If last question don't allow Next to be clicked
+
+// DONE Remember 5-21-26 Thur to set the new code in all the Preview buttons
+
+//  DONE look up the rules for using var again. sheesh. 
+
+// FIXED Nullpointer thrown in gradeOnceListOfListsSER section
+
+//  DONE - 5-22 FIX NEXT WITH ONCEGRADED IF i CLICK FINISH WITHOIUT EVALUATE IT THROWS NULLPOINTER 
+//CAUSE gradeOnceListOfListsSER" is null. You can if/verify if gradeOnceListOfListsSER is null, but
+// what if there is at least one question answered? Answer - it is a fail
+// And how to assign assign serlists that were not answered? Force them to make an evaluation (I think done.)
+
+// DONE AND FIXED - Weird, if I select correct answers first, then a false on second eval it works,
+// but if I select false as first val, and then the correct on second eval it doesn't
+// work and doesn't preview the false selections, but the lates which are true. 
+
+// DONE 5-22 next, Friday verify only one evaluate in the immediate eval section.
+// Also, eval once, then click something else and evaluate that other selection again
+// and see what happens. 
+
+// DONE So I selected true and eval, then false and reeval, then the same for
+// the second question and I failed both times. So the second eval overrides
+// and supercedes the first. Don't let them do that and change their minds. But how??
+
+// DONE DANGER DANGER 5-22 - Okay, so I got it to no evaluate more than once, but the second selection gets caught
+// and during preview that is the button displayed.,Fix it.
+// So if they can't run through selectionarraylist again, how does the button selection change??
+// So the issue is how to prevent them from selecting a different radio button?
+
+// FIXED BECAUSE IF NO QUESTIONS ANSWERED IT WILL BE MESSAGEBLOCKED IN THE FINISH.
+// In both modes, if I don't select any option and fail I want no buttons selected on preview or otherwise
+
+// DONE In immediate, if I jump straight to finish I fail all, which I think is what I want.
+// DONE Maybe at Begin Exam set the start/end/time to "" 
+
+//  DONE - Need to clear out start/end times after each exam finished. Problem is I want that displayed
+// after clicking finish so I can't clear it out there, right? RIGHT, So I set all to "" in the Preview JList
+
+// FIXED - With immediate, going next,next without selection throws nullpointer indexOfSelected" is null because nothing was selected. Not a
+// problem with gradedonce, though. 
+
+// DONE - FIXED - Next, when reaching the last question, clicking Next must tell them 
+// that's the last question and click evaluate instead
+
+// FIXED - 5-23 If I select first answer then finish it throws no exception and tells me I failed.
+//
+// done - If I click Finish out of the gate it says I failed the exam which I want. 
+
+// DONE - If I click next without a selection, then finish it tells me I did not answer any questions, and
+// forces an evaluation to exit. But how is that possible if gradeOnceListOfListsSER is null or cleared? Maybe 
+// when I clear the list it is not null but just has a length of 0? Yep, that's what happens. So in Finish
+// test both for null and size() == 0?
+// 
+
+//  DONE - FIXED 5-23 SAT So if I click 1 then 2 then evaluate then next, then 1 then 2 then evaluate and finish it works. But
+// if I do that again exactly it throws a Index 2 out of bounds for length 2 cause I have more than 2 in the gradeOnceListOfListsSER
+// which tells me I need to set gradeOnceListOfListsSER to empty ie. clear it. And that worked with gradeOnceListOfListsSER.clear() as the last
+// statement at the bottom of Finish
+
+// DONE - If I click next and finish without any evaluation no exceptions thrown, except that
+// when Ijust now tried it it throws a nullpointer
+
+// DONE. ACTUALLY NOT A PROBLEM. Huge problem with the selected command actionlistener. The way I'm setting it up doesn't allow 
+// Student to change his mind on selection during first evaluation. Very important to allow that.
+
+// FIXED. I WASN'T PASSING THE CORRECT qIndex to the displayReviewQuestion() method
+// but it works now. Clicking between 1st and 2nd preview buttons reverses the selected button ouch !!!!!!!!!!!
+
+// FIXED - graded once is all screwed up
+
+//DONE -  I WAS WRONG. THERE WAS ONLY ONE EXAM SO SIZE SHOULD BE 1,
+// AND IT'S THE QUESTIONS, THE ArrayList<Boolean> that there were 2 of.
+//So not a problem and fixed. Huge problem, the masterListOfProfsCorrectAnswers.size() is only 1 when it should be 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
+
+// DONE - 5-20 this is from the bottom of the factory. so each question gets its own masterListOfProfsCorrectAnswers
+// and maybe I've been pulling up the first questions version each time?
+masterListOfProfsCorrectAnswers.add(profsRadioButtonSelections);
+		questionSub.setMasterProfsCorrectAns(masterListOfProfsCorrectAnswers);
+		masterListOfProfsCorrectAnswers = questionSub.getMasterProfsCorrectAns();
+
+// DONE I THINK. fixed - 5-20I WASN'T USING THE CORRECT ANON OBJECT. ouch the pass and fail sometimes are backwards
+
+// FIXED AND DONE 5-19  WITH if/else validation. Cancel returns a value of 2
+//If you click cancel after begin exam it still brings up and fills the text fields.
+
+// DONE AND FIXED. If you click a sele3ction before Begin Exam it throws a nullpoinger because listOfQuestionsSER" is null
+// in the ActionListener at the very top of the constructor. Validate with an if/else
+
+// DONE AND FIXED - If there are no exams created, then simply clicking the numbers or questions preview
+// will throw a null pointer, but I just fixed that by checking the master thing for null with if/else
+// for  both of those preview buttons.
+
+// DONE AND FIXED !!!Is there any way to add more exams dynamically in the combobox? Yes, like in the 
+// Builder JList maybe, but that would require doing it in Tester, not in Builder,
+// so they would have to use a password for admin access?? They are going to want to do this.
+// But why not have the button in Builder to bring up the Tester thing?? Figure it out.
+
+// DONE !!! Password protect the combo exam labels things/buttons
+
+DONE//Dynamically change the combobox labels:
+// Create 2 classes a) LoadInitComboLabels, and b) ExamComboLabels
+// ALL DONE New button ComboLabels with lots of code
+// Create a new table!! so another CreateTable class
+
+// Limit number of character input etc. Use code from previous project.
+
+// FIXED, MAYBE - Time won't format properly in begin button, but does when first creating the textfield
+
+// DONE. I JUST WARNED THEM IN THE FAQ TO RUN THE EXAM THROUGH
+// THE TESTER TO VERIFY THINGS WORK, AND NO NULL QUESTIONS EXIST. 
+// MAYBE NOT DONE OVER IN BUILDER. re deleted question problem. If a question is deleted (null) what happens if you 
+// try and take that question problem?b) ******* NOT DONE -> before the final profs list is loaded? Double check
+// i DON'T THINK i CAN VALIDATE THIS PROBLEM AT THE SECOND TABLE BECAUSE THE PROF IS CONSTANTLY WRITING TO THAT
+// TABLE, SO HOW WOULD I CHECK IT UNTIL HE IS FINISHED? aDD IN README AND FAQ THAT IF A QUESTION IS NULL OR EMPTY
+// THEN THE EXAM CAN'T BE TAKEN. sO, WHEN PROF IS DONE AND HAS A FINAL PRODUCT HE MUST TAKE EXAM FOR A TEST RUN
+// IN THE TESTER TO SEE IF IT WORKS AS DESIRED, AND THAT WILL TRIGGER WARNING IF NULL/EMPTY QUESTIONS EXIST.  
+
+// Doneish? Did I already do this??? FORMAT THE date/TIME QUESTION CREATED FIELD WHEN the question is created. 
+
+// MOSTLY DONE - Remove unnecessary buttons in Builder and Tester and line things up
+
+// Input validation for names, creator, etc.
+
+// DANGER DANGER. re combobox. CAN'T CHANGE IT WITHOUT EVERY OTHER REFERENCE TO Exam 1. Lost. Set the first thing in the combobox 
+// to "Select an Exam" and find out what that index is, and
+// whether that screws everything up, which it will. I would have to track down everywhere 
+// that selectedExamIndex is used, or whatever variable captures that index. Major headache.
+
+
+// DONE - 5-14 DANGER DANGER, MUST DO THIS !!!@
+// Figure out true/false selection (that's a Builder problem and a Tester problem cause True/False has to be offered and
+// displayed properly in Tester. 
+
+// DONE I THINK. DON'T THINK I NEED THIS WITH THE NEW
+// PREVIEW BUTTON AND THAT masterListOfQuestionsSER IN sHOWQUESTIONSPEREXAM CLASS.
+// Next, (BUT DO I NEED THIS? 4-23) - in Tester, set the initialNumberOfQuestions in a new method in QuestionSuper
+// and provide a getter. Why would I need total number of questions if I can just use the size?
+// Then, provide a textField that displays this number above the questions? (nO NEED, IT SHOWS UP IN THE PREVIEW.And if 
+// additional questions are added, add these two numbers together and display (but the serlist size() whould take care of this
+
+// DONE I THINK - Tester problem? Mostly done. Format dates and times properly -  Start checking each of them to make certain.
+
+// 5-13 DONE, AND FIXED. WARNING POPS UP AT BEGIN EXAM THAT IF A QUESTIION IS EMPTY/NULL THE EXAM CAN'T BE TAKEN. 
+// DANGER DANGER, DELETING A QUESTION DOESN'T DELETE THAT QUESTION FROM THE SECOND TABLE SO THAT
+// ABSOLUTELY MUST BE SET IN SECOND TABLE .... 
+// So I tried an exam with null or nothing and it just pulled up that nothing gibberish (no nullpointer etc.) 
+// but the weird part was that clicking evalute gave me correct answer so I forgot to set the selection to nothing
+// when I deleted, right?
+// but i forgot to clear all radiobutton selections , maybe builderGroup.clearSelection?
+		//but i don't want the student to evaluate or anything if the question is null/gibberish
+
+// 5-134-26 This first part is DONE - 5-13-26 - 5-2 IMPORTANT, FOR LATER, - re deleted question problem. If a question is deleted (null) what happens if you 
+// try and take that question problem? Is there a way to loop through the serlist looking for nulls a) before
+// that exam is taken? Yes, and done, but and 
+
+// DONE - 5-2 In the combobox, finish using variables instead of hardcoding.
+
+// DONE AND FIXED 5-2 - taking an exam in the combobox that has not been created throws a nullpointer, 
+//so fix that too. I fixed it by testing the serlist for null in the Begin Button.
+
+
+// FIXED -  5-2 If you click an Exam preview that has not been taken it throws Index -1 out of bounds for length 0
+// so you better fix this asap. Instead of Exam has not been populated (but created weith nulls) as in the other exams below exam 3
+// Fixed? This throws an Index -1 out of bounds for length 0 exception when Exam 3 is selected
+// for preview if it has not been populated yet, so comment this out, the 
+// System.out.println(innerMasterListOfQuestionsSER.get(
+									innerMasterListOfQuestionsSER.size() - 1).get(0).getTitle() + " mbmbmbmbm 4-26");. 
+// On the other hand, if the exam has not even been created a message appears and blocks. 
+
+// FIXED - NUMBEROFTIMES TAKEN WAS STUCK ON 1 CAUSE I WAS SETTING, NOT ADDING
+
+// DONE, I THINK. 4-27 WAIT A MINUTE, THERE SHOULD BE NO SETTING AT ALL, BUT ONLY ADDING.
+		// AND ITY'S WHEN I DELETE THAT I WANT TO DELETE WHICH ONE? AND MAYBE NOT
+		// DELETE BUT SET A NULL? OR NOT, CAUSE I'M DEALING WITH SERLISTS, NOT THE innerMasterListOfQuestionsSER
+		// WHICH IS DIFFERENT AND THAT SHOULD ALWAYS BE SET TO NULL, NEVER DELETED !!!!!!
+		
+		// but deleting an exam as in innerMasterListOfQuestionsSER in the outernested should set, not delete, so
+		// as to preserve the index order, but that is a Builder issue, not Tester, so go there
+
+// HUGE HUGE HUGE 4-26
+// FIXED, I THINK, BUT IT MIGHT CROP UP LATER. Also, this is also a builder problem but deleting rows is a major, major problem because
+// it shifts other row indexes and maybe I should set them to null instead? Actually, the row
+// index might shift, but the primary key numbers would stay the same, but I'd still have this problem.
+
+// DONE - FIXED, I HOPE - CAVEAT DANGER DANGER 4-27 I DON'T THINK I WANT NULL PLACEHODERS IN THE innerMasterListOfQuestionsSER BECAUSE
+		// I WANT TO ADD THE FINISHED EXAMS IN CHRONOLOGICAL ORDER, BUT IF I HAVE PLACEHOLDERS THEY WILL BE
+		// ADDED AT THE END OF THOSE. So go back to the last loadinitialplaceholder class and get rid of them, right??
+		// Just make sure you can call add on that innerMasterListOfQuestionsSER WHICH IN THE 
+		// InsertInitialOuterNestedPlaceholders CLASS IS ACTUALLY CALLED innerMasterListOfLists, and masterListOfQuestionsSER
+		// from the previous class, WHICH IS 
+		// THE ONE THAT CAN'T HAVE THOSE NULL PLACEHOLDERS !!!
+
+// Fixed probably cause it now works cause I think I fixed the outertriplenested stuff. And now 
+//in preview it won't let me delete a preview exam, which probably has to do with
+// something in the outertriplenested
+
+// No I'm not anymore. I must have hardcoded that "Exam 1" into the title.
+//Also, in my big Preview pane, for Exam 2 title I'm getting Exam 1 title so fix this.
+
+
+// DONE -  4-26 ADD THIS CODE TO ALL OF THE PREVIEW BUTTONS - THIS IS BUTTON 2
+				if (selectedExamIndex != null && listOfQuestionsSER.size() < 2) {
+					JOptionPane.showMessageDialog(null, "Question 2 is no available");
+				} else if(selectedExamIndex != null) {
+					questionObject = listOfQuestionsSER.get(1);
+					qIndex = 0;
+					if (questionObject.isQuestionGraded() == true) {
+						// Call method down below
+						displayReviewQuestion(questionObject);
+					}
+				}
+
+// DONE I THINK - But in the upDateFinalGradedStudentExams() method make certain the serlist that was passed in
+is the latest, and/or get a copy from the Students_Graded_Exams_Table2 to get the most fresh finished version!!!!!!!!!
+then set that first one in the innermaster, and the inner set in the outer, but use an if
+cause you want to add all subsequent serlists to the innermaster, not set them as the first
+one that gets set where the placeholder is. That might work. Goodnight.
+
+DONE I THINK - 	this is terrible. I have serlist placeholders, one per innermaster, and in order to take
+multiple of the same exams I want to add them so I can preview and average the last one/two
+exams. But I also want to keep the null placeholder because it is so useful and baked into my
+code now. So I think I want to set the first exam taken, but add all the others so as not
+to lose or waste my placeholders I took so long to build. Do I just use a simple if thing
+in the UpdateFinalStudentExams class??? And don't I need to pull the most final serlist graded from the 
+second-to-last table Students_Graded_Exams_Table2? 
+So track through Evaluate and Finish and see if the most recent graded serlist makes it into
+the Students_Graded_Exams_Table2 and probably should pull up that freshest copy in the 
+UpdateFinalStudentExams class and pull up the outertriplemaster, and the innermaster from
+in there, then set the freshest serlist into the innermaster and set that back into the 
+outertriplemaster and set that outer back into the STUDENTS_OUTERNESTED_TABLE4 using the set method
+in the UpdateFinalStudentExams class. 
+
+
+// BIG DEAL FOR SUNDAY 4-26-26
+// FIXED - DONE - Problem is that my graded serlist isn't getting set in the outertriplenested so
+first, after click Finish 
+
+// DONE AND FIXED - DANGER DANGER DANGER BIG DEAL!! In the combox, now that there are 10 especially, block with validation if there is no such exam
+// which is very important. How? Pull it up from the second profsfinal table and see if that 
+// selectedExamIndex row exists?
+
+// DONE - OOPS, I FORGOT WHEN CALCULATING PASS FAIL AND SPECIFYING PERCENT GRADE TO 
+// LIST NUMBER OF PASS AND NUMBER OF FAIL, VERY IMPORTANT
+
+// DONE, FIXED - HUGE!!! - RE FINISH BUTTON,  big problem. If I don't attempt and answer each question 
+// the listOfQuestionsSER.get(i).getPassFail().equalsIgnoreCase("pass")) throws a null pointer. Fix later.
+// but this is a big problem. Maybe force them to make a selection? I'm thinking that
+// it has to do with evaluate button which advances to the next anon? Or maybe the
+//  problem is with the next button which advances the qIndex??? Fix this, but later.
+// Maybe force them to answer a question and not provide option to return later? That
+// would be easiest, just do a simple if test. But, I give them a previous button. 
+// So if not evaluated but they click finish, can't I just give them a fail?? 
+// And I want jto keep the Previous button for review. That might do the trick. Make
+// them only use Next when taking the exam. Test with if re whether a selection was made,
+// and message that they must make a selection or fail that question. 
+
+DONE, BUT CLEAN UP THE LANGUAGE. Intro text when first opening the app. 
+
+// FIXED, I THINK. If I delete Exam 1 in tester, I can still preview the question answers with the R buttons until I close out the program. 
+// DONE - So, must somehow make the R button not work once Exam 1 is deleted, but how without refreshing or recompiling? Actually, 
+// clicking question buttons other than thej official number doesn't do anything which is good and okay.
+
+// FIXED Also, I have to do a lot of clicking
+// here and there to make stuff appear and disappear.
+// DONE, PRETTY SURE. And, it's still as though I have two rows in the inner master, which there are cause I took the exam
+// more than once
+
+// DONE/FIXED - NEXT 4-21 - Clicking Delete an Exam when there is none throws a (nullpointer) (java.util.NoSuchElementException), so fix this as well
+
+// DONE. I THINK ALL OF THIS IS FIXED.Wrong. the button does throw a nullpointer but in the != null 
+// loop so it catches the selectedExamIndex?
+// Also, clicking R button when there is no exam throws a nullpointer NO IT DOESN'T!! IF EXAM 1 IS FIRST CLICKED
+// THEN THAT IS WHAT TRIGGERS A NULLPOINTER. If just clicking the button without
+// first clicking the Jlist exam 1, then a message pops up which is good. 
+// 
+
+// DONE/FIXED - And how come it's telling me I have 3 questions and I fail when I only ordered up one question? Fix!!
+// cause I have a fixed loop of 3 in there somewhere that should be tied to a variable object size instead
+
+ -------
+// DONE - CAN'T JUST CLICK AN EMPTY NON-EXISTENT EXAM IN REVIEW JLIST - NEED WARNING
+// THAT THE EXAM DOES NOT EXIST OR HAS NOT BEEN TAKEN?
+
+// DONE - Delete Exam throws indexoutofbounds in outermaster if no exam has been graded and deposited there.
+// So do an if warning? But, should I be using the catch/exceptions to do this????? 
+
+// NOPE. DONE AND FIXED BY NOT ALLOWING PREVIOUIS ANDDANGER// CAN ONLY GO IN FORWARD DIRECTION. DANGER DANGER - - clicking finish should warn that certain questions have not been answered
+// and provide opportunity to go back and finish them, or
+// DONE - automatic fail Tricky coding. Not the part that keeps record of not answered, but
+// DONE - how to send them back to finish those unanswered questions. 
+-------------------
+
+NEXT SAT 4-18
+
+// DONE - SUNDAY 4-12-26 NEED TO ADD in horiz  table COLUMN RE NUMBER OF CORRECT ANSWERS OUT OF # POTENTIAL
+// so it would be 8/10 or something along those lines, or num of correct/size of SERlist
+
+// DONE - Remove FAQ (old) stuff but leave the panel for MISC?
+
+// DONE - Ugh - each preview button gets its own block of code
+// Rename all preview buttons so they are consistent
+
+// DONE - REMOVED TO FREE UP SOME SPACE. Figure out what goes in the message box and if that's necessary. But I removed the message  for now.
+// Do I even need a message box if I can use popups that can be hidden don't show again etc.
+
+
+
+
+
+
