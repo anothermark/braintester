@@ -85,9 +85,12 @@ public class BrainTest3 extends JDialog {
 	
 	private static final long serialVersionUID = -1970291761632341584L;
 
-	private static final String PREF_KEY = "show_message";
-	private static final Preferences prefs =
-	Preferences.userNodeForPackage(BrainTest3.class);
+	// Define a unique key for EACH pop-up message
+    private static final String PREF_KEY_EXAM_INTRO = "show_exam_intro_message";
+    private static final String PREF_KEY_WELCOME = "show_welcome_message"; 
+    private static final String PREF_KEY_DELETE_WARNING = "show_delete_warning";
+
+    private static final Preferences prefs = Preferences.userNodeForPackage(BrainTest3.class);
 	
 	boolean isCurrentExamFinished = true;
 
@@ -271,8 +274,9 @@ public class BrainTest3 extends JDialog {
 	 * @throws BackingStoreException
 	 * @throws SQLException
 	 */
-	public static void main(String[] args) throws BackingStoreException, SQLException {
+	public static void main(String[] args) throws BackingStoreException, SQLException {		
 		System.out.println("Top of The main() method");
+		DatabaseConfig.initializeDatabaseIfMissing();
 		try {
 			BrainTest3 dialog = new BrainTest3();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -281,28 +285,38 @@ public class BrainTest3 extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 if (!prefs.getBoolean(PREF_KEY, true)) {
-		 prefs.clear();
-		 return;
-		 }
-		JCheckBox checkBox2 = new JCheckBox("Don't show this message again");
-		Object[] message2 = { "After last and first names are entered, to take an exam you must first select \n"
-				+ "it (click the down-arrow) from the drop-down menu in the combo box. Then, click \n"
-				+ "'Begin Exam' upon which you will be asked to choose an evaluation \n"
-				+ "method. \n\nWhen questions are presented, after selecting your answer, click 'Evaluate' \n"
-				+ "and then 'Next' until you have completed the exam. Remember, failure to answer a \n"
-				+ "question results in a 'fail' as you are prohibited from returning to previous \n"
-				+ "unanswered questions. Then, click 'Finish'. For a more comprehensive explanation \n"
-				+ "of the process, including how to review your most recent graded exam, please visit the FAQ panel. \n",
-				checkBox2 };
-		int result = JOptionPane.showConfirmDialog(null, message2, "Intro", JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
-		 if (result == JOptionPane.OK_OPTION && checkBox2.isSelected()) {
-		 prefs.putBoolean(PREF_KEY, false);
-		 prefs.clear();
-		 System.out.println("User checked don't show again");
-		 }
-		// ################################################################################################################
+		
+		// if (!prefs.getBoolean(PREF_KEY, true)) {
+		// prefs.clear();
+		 //return;
+		// }
+		
+		// ==========================================
+        // POP-UP 1: Exam Structure Intro
+        // ==========================================
+        // Only show if the user HAS NOT checked "Don't show this message again" (defaults to true)
+        if (prefs.getBoolean(PREF_KEY_EXAM_INTRO, true)) {
+            JCheckBox checkBoxExam = new JCheckBox("Don't show this message again"); 
+            Object[] messageExam = { "After last and first names are entered, to take an exam you must first select \n"
+    				+ "it (click the down-arrow) from the drop-down menu in the combo box. Then, click \n"
+    				+ "'Begin Exam' upon which you will be asked to choose an evaluation \n"
+    				+ "method. \n\nWhen questions are presented, after selecting your answer, click 'Evaluate' \n"
+    				+ "and then 'Next' until you have completed the exam. Remember, failure to answer a \n"
+    				+ "question results in a 'fail' as you are prohibited from returning to previous \n"
+    				+ "unanswered questions. Then, click 'Finish'. For a more comprehensive explanation \n"
+    				+ "of the process, including how to review your most recent graded exam, please visit the FAQ panel. \n",
+    				checkBoxExam };
+
+
+            int resultExam = JOptionPane.showConfirmDialog(null, messageExam, "Intro", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);  
+
+            if (resultExam == JOptionPane.OK_OPTION && checkBoxExam.isSelected()) { 
+                prefs.putBoolean(PREF_KEY_EXAM_INTRO, false); 
+                System.out.println("User checked don't show Exam Intro again"); 
+            }
+	}
+			
+	//################################################################################################################
 		// KEEP THIS deleteExamsComboRows() below. IT SAVED MY HIDE A FEW TIMES because
 		// I was locked out because I had
 		// an older obsolete version of the class object in the db table, serialversion
@@ -326,17 +340,14 @@ public class BrainTest3 extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 * 
-	 * @throws IOException
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * @throws Exception 
 	 */
 
-	public BrainTest3() throws IOException, ClassNotFoundException, SQLException {
+	public BrainTest3() throws Exception {
 		setBounds(100, 30, 1420, 850);
 		getContentPane().setLayout(null);
 
-		var selectionSaver = new ActionListener() {
+		ActionListener selectionSaver = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Top of ActionListener re previouslySelectedCommand at top of BrainTest3.");
@@ -813,6 +824,29 @@ public class BrainTest3 extends JDialog {
 		textFieldNumQueInExam.setBounds(996, 47, 32, 19);
 		panelTopDashboard.add(textFieldNumQueInExam);
 		textFieldNumQueInExam.setColumns(10);
+		
+		JButton resetTipsButton = new JButton("Reset Tips");
+		// Add the action listener using a lambda expression (Replaces actionPerformed)
+				resetTipsButton.addActionListener(e -> {
+				    try {
+				        // Clear the exact preference key you created
+				        prefs.remove(PREF_KEY_EXAM_INTRO);
+				        
+				        // Save the changes to disk immediately
+				        prefs.flush(); 
+				        
+				        JOptionPane.showMessageDialog(this, 
+				            "Informational messages have been reset and will display again.", 
+				            "Success", 
+				            JOptionPane.INFORMATION_MESSAGE);
+				            
+				    } catch (BackingStoreException ex) {
+				        ex.printStackTrace();
+				    }
+				});
+		resetTipsButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		resetTipsButton.setBounds(1240, 46, 110, 20);
+		panelTopDashboard.add(resetTipsButton);
 
 		JPanel panelfLoginInfo = new JPanel();
 		panelfLoginInfo.setBackground(new Color(192, 192, 192));
@@ -851,9 +885,13 @@ public class BrainTest3 extends JDialog {
 
 		} else if (rowCountComboInt == 1) {
 			examComboLabelsTester = getExamComboLabelsB3();
+			
 			exam1 = examComboLabelsTester.getExam1Str();
+			System.out.println(exam1 + " exam1 kpoet904" );
 			exam2 = examComboLabelsTester.getExam2Str();
+			System.out.println(exam2 + " exam2 rv905mg" );
 			exam3 = examComboLabelsTester.getExam3Str();
+			System.out.println(exam3 + " exam3 oer4584" );
 			exam4 = examComboLabelsTester.getExam4Str();
 			exam5 = examComboLabelsTester.getExam5Str();
 			exam6 = examComboLabelsTester.getExam6Str();
@@ -867,8 +905,10 @@ public class BrainTest3 extends JDialog {
 				new String[] { exam1, exam2, exam3, exam4, exam5, exam6, exam7, exam8, exam9, exam10 }));
 		comboBoxSelectExam.setBounds(160, 12, 175, 21);
 		panelfLoginInfo.add(comboBoxSelectExam);
+		
 		comboBoxSelectExam.addActionListener(e -> {			
 			selectedExamIndex = comboBoxSelectExam.getSelectedIndex();
+			
 			var builderDBTesterUtility = new BuilderDBTesterUtility();
 			try {
 				countingRows = builderDBTesterUtility.getRowCount();
@@ -1036,8 +1076,14 @@ public class BrainTest3 extends JDialog {
 
 								var updateGradedExams = new UpdateGradedExams();
 								try {
-									updateGradedExams.updateGradedExam(selectedExamIndex, listOfQuestionsSER,
-											lastNameStudent);
+									try {
+										updateGradedExams.updateGradedExam(selectedExamIndex, listOfQuestionsSER,
+												lastNameStudent);
+									} catch (ClassNotFoundException e1) {
+										JOptionPane.showMessageDialog(null, "A database error occurred. Please try again.");
+										e1.printStackTrace(); // Keep this for your own local logging
+									    
+									}
 								} catch (IOException | SQLException e1) {
 									e1.printStackTrace();
 								}
@@ -3512,7 +3558,8 @@ public class BrainTest3 extends JDialog {
 					JTextField jTextField2 = new JTextField(20);
 					jTextField2.setText(examComboLabelsTester.getExam2Str());
 					setExLabelsPanel.add(jTextField2);
-
+					
+					
 					setExLabelsPanel.add(new JLabel("Exam 3 ----> "));
 					JTextField jTextField3 = new JTextField(20);
 					jTextField3.setText(examComboLabelsTester.getExam3Str());
@@ -3588,7 +3635,8 @@ public class BrainTest3 extends JDialog {
 
 							examComboLabelsTester.setExam2Str(exam2LabelStr);
 							jTextField2.setText(examComboLabelsTester.getExam2Str());
-
+							
+							System.out.println("1. UI TextField 3 reads: " + jTextField3.getText());
 							examComboLabelsTester.setExam3Str(exam3LabelStr);
 							jTextField3.setText(examComboLabelsTester.getExam3Str());
 
@@ -3612,10 +3660,73 @@ public class BrainTest3 extends JDialog {
 
 							examComboLabelsTester.setExam10Str(exam10LabelStr);
 							jTextField10.setText(examComboLabelsTester.getExam10Str());
+							
+							// DIAGNOSTIC 2: Did the object successfully receive it?
+						    System.out.println("2. Object Exam3Str is now: " + examComboLabelsTester.getExam3Str());
+							// xyzxyz This should update the database with the updated ExamComboLabelsTester instance
+							
+						    
+						    
+						    
+						 // 1. Write the updated instance to the database safely
+                            setComboLabelsB3(examComboLabelsTester);
+                            
+                            // 2. Fetch the updated state EXACTLY ONCE to avoid thread collisions
+                           // examComboLabelsTester = getExamComboLabelsB3();
+                            
+                            // 3. Extract the clean variables from that single fetch
+                            exam1 = examComboLabelsTester.getExam1Str();
+                            exam2 = examComboLabelsTester.getExam2Str();
+                            exam3 = examComboLabelsTester.getExam3Str();
+                            System.out.println("Extracted Exam 3 directly: " + exam3);
+                            
+                            exam4 = examComboLabelsTester.getExam4Str();
+                            exam5 = examComboLabelsTester.getExam5Str();
+                            exam6 = examComboLabelsTester.getExam6Str();
+                            exam7 = examComboLabelsTester.getExam7Str();
+                            exam8 = examComboLabelsTester.getExam8Str();
+                            exam9 = examComboLabelsTester.getExam9Str();
+                            exam10 = examComboLabelsTester.getExam10Str();
+                        
+                            // 4. Safely apply the fresh array data model to the combo box component
+                           comboBoxSelectExam.setModel(new DefaultComboBoxModel<String>(
+                                 new String[] { exam1, exam2, exam3, exam4, exam5, exam6, exam7, exam8, exam9, exam10 }
+                            ));
 
-							setComboLabelsB3(examComboLabelsTester);
+                            // 5. Force Swing to repaint the view layers cleanly
+                            comboBoxSelectExam.revalidate();
+                            comboBoxSelectExam.repaint();
+							
+							
+							
+							
+							
+							
+							/*
+							// 1. Get a reference to your existing model
+							DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) comboBoxSelectExam.getModel();
+
+							// 2. Clear out the old strings safely
+							model.removeAllElements();
+							// 3. Add your fresh array of strings from the database
+							
+							String[] newExams = new String[] { exam1, exam2, exam3, exam4, exam5, exam6, exam7, exam8, exam9, exam10 };
+							for (String exam : newExams) {
+							    model.addElement(exam);
+							}
+							*/
+
+						//comboBoxSelectExam.setModel(new DefaultComboBoxModel<String>(
+								//new String[] { exam1, exam2, exam3, exam4, exam5, exam6, exam7, exam8, exam9, exam10 }));
+							
+							
+							
+							
 
 						} catch (ClassNotFoundException | IOException | SQLException e1) {
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						Integer counter = null;
@@ -3627,26 +3738,7 @@ public class BrainTest3 extends JDialog {
 						JTextField textFieldExamLabelsCount = new JTextField();
 						textFieldExamLabelsCount.setText(counter.toString());
 
-						// I need this so I can have something (args) to pass to main() when
-						// when shutting down and rebooting to see the changes
-						try {
-							exam1 = examComboLabelsTester.getExam1Str();
-						} catch (ClassNotFoundException | IOException | SQLException e1) {
-							e1.printStackTrace();
-						}
-						String[] exams = new String[] { exam1 };
-						try {
-							JOptionPane.showMessageDialog(null,
-									"To see your changes to the exam labels you must restart the \n"
-											+ "application until I figure out how to code this properly\n");
-							System.exit(0);
-							// Okay, so this simply runs main() again after System.exit(0)?
-							BrainBuilder3.main(exams);
-						} catch (SQLException | IOException e1) {
-							e1.printStackTrace();
-						} catch (BackingStoreException e1) {
-							e1.printStackTrace();
-						}
+						
 					} else {
 						System.out.println(
 								"Selected 'No' and does not want to apply changes, the '1' value returned in applyOption");
@@ -4134,7 +4226,7 @@ public class BrainTest3 extends JDialog {
 
 		String updateSQL = "UPDATE STUDENTS_OUTERNESTED_TABLE4  SET id = ?, STUDENTLASTNAME = ?, STUDENTFIRSTNAME = ?, OUTERNESTEDMASTERS = ?, LISTOFGRADEDEXAMSLISTS = ?  WHERE id=?";
 
-		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		Connection conn = DatabaseConfig.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(updateSQL);
 
 		stmt.setInt(1, 1); // shouldn't this be 1 always? It's one when set with initial placehoder
@@ -4155,7 +4247,7 @@ public class BrainTest3 extends JDialog {
 
 		String sqlRS = " SELECT id, STUDENTLASTNAME,  STUDENTFIRSTNAME, OUTERNESTEDMASTERS, LISTOFGRADEDEXAMSLISTS FROM STUDENTS_OUTERNESTED_TABLE4 ";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rSet = stmt.executeQuery()) {
 
@@ -4207,64 +4299,89 @@ public class BrainTest3 extends JDialog {
 
 		String insertSQL = "INSERT INTO EXAMS_COMBO_LABELS_1 (id, EXAMCOMBOLABELS ) VALUES(?, ?)";
 
-		try (Connection conn2 = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn2 = DatabaseConfig.getConnection();
 				PreparedStatement stmt2 = conn2.prepareStatement(insertSQL)) {
 			stmt2.setInt(1, 1);
 			stmt2.setObject(2, serializedObjectBytes);
 			int rowsEffected27 = stmt2.executeUpdate();
 			System.out.println(rowsEffected27 + " Number of rowsEffected27 ");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public ExamComboLabelsTester setComboLabelsB3(ExamComboLabelsTester examComboLabelsTester)
-			throws IOException, SQLException {
+	        throws IOException, SQLException, ClassNotFoundException {
+		try (java.sql.Connection conn = DatabaseConfig.getConnection()) {
+		    System.out.println("-> SETTER DATABASE PATH: " + conn.getMetaData().getURL());
+		} catch (Exception e) {}
+	System.out.println(examComboLabelsTester.getExam3Str() + " examComboLabelsTester p489486ng4");
+	System.out.println(examComboLabelsTester.getExam1Str() + " examComboLabelsTester o ri896484g");
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		oos.writeObject(examComboLabelsTester);
-		byte[] serializedObjectBytes = baos.toByteArray();
-		oos.close();
+    // 1. DEEP CLONE: Create a brand new instance to break Java's memory cache
+    ExamComboLabelsTester freshObject = new ExamComboLabelsTester();
+    freshObject.setExam1Str(examComboLabelsTester.getExam1Str());
+    freshObject.setExam2Str(examComboLabelsTester.getExam2Str());
+    freshObject.setExam3Str(examComboLabelsTester.getExam3Str()); // "Tom" is copied here!
 
-		String updateSQL = "UPDATE EXAMS_COMBO_LABELS_1  SET id = ?, EXAMCOMBOLABELS =?  WHERE id=?";
+    String updateSQL = "UPDATE EXAMS_COMBO_LABELS_1 SET EXAMCOMBOLABELS = ? WHERE id = ?";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
-
-			stmt.setInt(1, 1);
-			stmt.setObject(2, serializedObjectBytes);
-			stmt.setInt(3, 1);
-			int rowsEffected248 = stmt.executeUpdate();
-			System.out.println(rowsEffected248 + " rowsEffected248 updating ");
-			return examComboLabelsTester;
-		}
-	}
+    try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+        conn.setAutoCommit(false); 
+        
+        // 2. Pass the fresh object instance to bypass any serialization caching
+        stmt.setObject(1, freshObject); 	        
+        stmt.setInt(2, 1); 	        
+        int rowsEffected248 = stmt.executeUpdate();
+        conn.commit(); 
+        
+        System.out.println(rowsEffected248 + " rowsEffected248 updating ");
+        return examComboLabelsTester;
+    }
+}
 
 	public ExamComboLabelsTester getExamComboLabelsB3() throws IOException, SQLException, ClassNotFoundException {
-		String sqlRS = " SELECT id, EXAMCOMBOLABELS FROM EXAMS_COMBO_LABELS_1 ";
+		
+		try (java.sql.Connection conn = DatabaseConfig.getConnection()) {
+		    System.out.println("-> GETTER DATABASE PATH: " + conn.getMetaData().getURL());
+		} catch (Exception e) {}
+	    String sqlRS = "SELECT id, EXAMCOMBOLABELS FROM EXAMS_COMBO_LABELS_1";
+	    // Create a LOCAL variable here instead of using the global one
+	    ExamComboLabelsTester localResult = null; 
+	    
+	    //Integer rowcount = rowCountComboLabelsB3();
+	   // System.out.println(rowcount + " rowcount iporutv09t8n4");
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-				PreparedStatement stmt = conn.prepareStatement(sqlRS);
-				ResultSet rs = stmt.executeQuery()) {
-			byte[] listComboEXLABBytes = null;
+	    try (Connection conn = DatabaseConfig.getConnection();
+	            PreparedStatement stmt = conn.prepareStatement(sqlRS);
+	            ResultSet rs = stmt.executeQuery()) {
+	        byte[] listComboEXLABBytes = null;
 
-			while (rs.next()) {
-				listComboEXLABBytes = rs.getBytes("EXAMCOMBOLABELS");
-				if (listComboEXLABBytes != null) {
-					try (ByteArrayInputStream bais = new ByteArrayInputStream(listComboEXLABBytes);
-							ObjectInputStream ois = new ObjectInputStream(bais)) {
-						examComboLabelsTester = (ExamComboLabelsTester) ois.readObject();
-					} catch (EOFException ef) {
-						System.out.println("EOFException in getExamComboLabels() method");
-					}
-				}
-			}
-		}
-		return examComboLabelsTester;
+	        while (rs.next()) {
+	            listComboEXLABBytes = rs.getBytes("EXAMCOMBOLABELS");
+	            if (listComboEXLABBytes != null) {
+	                try (ByteArrayInputStream bais = new ByteArrayInputStream(listComboEXLABBytes);
+	                        ObjectInputStream ois = new ObjectInputStream(bais)) {
+	                    // Assign to the local variable!
+	                    localResult = (ExamComboLabelsTester) ois.readObject(); 
+	                } catch (EOFException ef) {
+	                    System.out.println("EOFException in getExamComboLabels() method");
+	                }
+	            }
+	        }
+	    }// end of trywithresources
+	    
+	    System.out.println(localResult.getExam1Str() + " exam1 is ___ 5945,mj");
+	    System.out.println(localResult.getExam2Str() + " exam2 is ___ crt4958,mj");
+	    System.out.println(localResult.getExam3Str() + " exam3 is ___ p,rot05v,mj");
+	    // Return the local variable safely
+	    return localResult; 
 	}
-
 	public Integer rowCountComboLabelsB3() throws SQLException {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(" SELECT COUNT(*) AS rowcount FROM EXAMS_COMBO_LABELS_1")) {
 			rs.next();
@@ -4272,21 +4389,62 @@ public class BrainTest3 extends JDialog {
 			Integer rowCountComboInt = rs.getInt(1);
 			System.out.println("This EXAMS_COMBO_LABELS_1 table contains " + rowCountComboInt + " rows dgfre@@@");
 			return rowCountComboInt;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return 1;
 	}
 
 	public Integer deleteExamsComboRowsB3() throws SQLException {
 		String sqlDeleteRow1 = " DELETE FROM EXAMS_COMBO_LABELS_1 WHERE ID = 1";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlDeleteRow1)) {
 			Integer affectedRows5xy = stmt.executeUpdate();
 			System.out.println(affectedRows5xy + " Number of affectedRows5xy deleted");
 			return affectedRows5xy;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return 1;
 	}
 
 	public String printForMark() {
 		return "Testing!!!";
+	}
+	public void debugTableContents() throws SQLException {
+	    String sql = "SELECT id, LENGTH(EXAMCOMBOLABELS) AS byte_size FROM EXAMS_COMBO_LABELS_1";
+	    try (Connection conn = DatabaseConfig.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+	        System.out.println("--- START DB TABLE DIAGNOSTIC --- djhe654");
+	        while (rs.next()) {
+	            System.out.println("Row ID Found: " + rs.getInt("id") + " | Byte Size: " + rs.getInt("byte_size"));
+	        }
+	        System.out.println("--- END DB TABLE DIAGNOSTIC ---");
+	    } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void debugTableRows() throws Exception {
+	    String sql = "SELECT id, EXAMCOMBOLABELS FROM EXAMS_COMBO_LABELS_1";
+	    try (Connection conn = DatabaseConfig.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+	        System.out.println("--- START ROW DIAGNOSTIC ---");
+	        int count = 0;
+	        while (rs.next()) {
+	            count++;
+	            int rowId = rs.getInt("id");
+	            byte[] bytes = rs.getBytes("EXAMCOMBOLABELS");
+	            System.out.println("Row #" + count + " has Database ID = " + rowId + " | Has Bytes: " + (bytes != null));
+	        }
+	        System.out.println("Total Rows Found: " + count);
+	        System.out.println("--- END ROW DIAGNOSTIC ---");
+	    }
 	}
 }

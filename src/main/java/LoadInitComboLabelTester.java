@@ -27,7 +27,7 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 		System.out.println("Closed LoadInitComboLabelTester");
 	}
 
-	public void loadComboExamLabs() throws SQLException, IOException {
+	public void loadComboExamLabs() throws SQLException, IOException, ClassNotFoundException {
 		var examComboLabelsTester = new ExamComboLabelsTester();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -37,7 +37,7 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 
 		String insertSQL = "INSERT INTO EXAMS_COMBO_LABELS_1 (id, EXAMCOMBOLABELS ) VALUES(?, ?)";
 
-		try (Connection conn2 = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn2 = DatabaseConfig.getConnection();
 				PreparedStatement stmt2 = conn2.prepareStatement(insertSQL)) {
 
 			stmt2.setInt(1, 1);
@@ -49,7 +49,7 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 	}
 
 	public ExamComboLabelsTester setComboLabels(ExamComboLabelsTester examComboLabelsTester)
-			throws IOException, SQLException {
+			throws IOException, SQLException, ClassNotFoundException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -59,7 +59,7 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 
 		String updateSQL = "UPDATE EXAMS_COMBO_LABELS_1  SET id = ?, EXAMCOMBOLABELS =?  WHERE id=?";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 			stmt.setInt(1, 1);
@@ -76,7 +76,7 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 
 		String sqlRS = " SELECT id, EXAMCOMBOLABELS FROM EXAMS_COMBO_LABELS_1 ";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rs = stmt.executeQuery()) {
 			byte[] listComboEXLABBytes = null;
@@ -97,8 +97,8 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 		return examComboLabelsTester;
 	}
 
-	public Integer rowCountComboLabels() throws SQLException {
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+	public Integer rowCountComboLabels() throws SQLException, ClassNotFoundException {
+		try (Connection conn = DatabaseConfig.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(" SELECT COUNT(*) AS rowcount FROM EXAMS_COMBO_LABELS_1")) {
 			rs.next();
@@ -109,11 +109,11 @@ public class LoadInitComboLabelTester implements AutoCloseable {
 		}
 	}
 
-	public Integer deleteExamsComboRows() throws SQLException {
+	public Integer deleteExamsComboRows() throws SQLException, ClassNotFoundException {
 
 		String sqlDeleteRow1 = " DELETE FROM EXAMS_COMBO_LABELS_1 WHERE ID = 1";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlDeleteRow1)) {
 			Integer affectedRows5xy = stmt.executeUpdate();
 			System.out.println(affectedRows5xy + " Number of affectedRows5xy deleted");

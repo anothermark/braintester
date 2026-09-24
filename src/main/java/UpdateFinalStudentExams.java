@@ -99,7 +99,7 @@ public class UpdateFinalStudentExams {
 
 		String updateSQL = "UPDATE STUDENTS_OUTERNESTED_TABLE4  SET id = ?, STUDENTLASTNAME = ?, STUDENTFIRSTNAME = ?, OUTERNESTEDMASTERS = ?, LISTOFGRADEDEXAMSLISTS = ?  WHERE id=?";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 			stmt.setInt(1, 1);
@@ -120,7 +120,7 @@ public class UpdateFinalStudentExams {
 		String sqlRS = " SELECT id, STUDENTLASTNAME,  STUDENTFIRSTNAME, OUTERNESTEDMASTERS, "
 				+ "LISTOFGRADEDEXAMSLISTS FROM STUDENTS_OUTERNESTED_TABLE4 ";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rSet = stmt.executeQuery()) {
 			byte[] listOfOuterMasterBytes = null;
@@ -147,7 +147,7 @@ public class UpdateFinalStudentExams {
 
 		String sqlRS = " SELECT id, STUDENTLASTNAME,  STUDENTFIRSTNAME, OUTERNESTEDMASTERS, LISTOFGRADEDEXAMSLISTS FROM STUDENTS_OUTERNESTED_TABLE4 ";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rSet = stmt.executeQuery()) {
 			byte[] gradeOnceBytes = null;

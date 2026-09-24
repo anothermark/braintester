@@ -18,7 +18,7 @@ public class UpdateGradedExams {
 	// Unfortunately the method is singular of the class name which is plural, and
 	// easy to confuse.
 	public void updateGradedExam(Integer selectedExamIndex, ArrayList<QuestionSuper> listOfQuestionsSER,
-			String lastNameStudent) throws IOException, SQLException {
+			String lastNameStudent) throws IOException, SQLException, ClassNotFoundException {
 		System.out.println("Top of updateGradedExam() method of the UpdateGradedExams class ");
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -30,7 +30,7 @@ public class UpdateGradedExams {
 		String updateSQL = "UPDATE FINAL_GRADED_EXAMS_2  SET id = ?, EXAM_NUMBER =?, STUDENTLASTNAME = ?,"
 				+ "LISTOFQUESTIONS = ?, LISTOFGRADEDEXAMSLISTS = ?  WHERE id=?";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
 
 			stmt.setInt(1, selectedExamIndex + 1);

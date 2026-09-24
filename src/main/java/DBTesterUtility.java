@@ -24,7 +24,7 @@ public class DBTesterUtility implements Serializable {
 
 	public Integer getRowCount() throws IOException, SQLException, ClassNotFoundException {
 		System.out.println("Top of getRowCount() of class DBTesterUtility");
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(" SELECT COUNT(*) AS rowcount FROM TESTER_EXAMS_LIST_4")) {
 			while (rs.next()) {
@@ -38,7 +38,7 @@ public class DBTesterUtility implements Serializable {
 
 	public Integer getRowCountFinalGraded() throws IOException, SQLException, ClassNotFoundException {
 		System.out.println("Top of getRowCountFinalGraded() of class DBTesterUtility");
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(" SELECT COUNT(*) AS rowcount FROM FINAL_GRADED_EXAMS_2")) {
 			while (rs.next()) {
@@ -54,7 +54,7 @@ public class DBTesterUtility implements Serializable {
 	public void deleteRows(Integer selectedExamIndex) throws IOException, SQLException, ClassNotFoundException {
 		System.out.println("Top of deleteRows() of class DBTesterUtility");
 		String sqlDeleteRows = " DELETE FROM TESTER_EXAMS_LIST_4 WHERE id = selectedExamIndex";
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlDeleteRows)) {
 			int affectedRows123 = stmt.executeUpdate();
 			System.out.println(affectedRows123 + " Number of affectedRows123");
@@ -64,7 +64,7 @@ public class DBTesterUtility implements Serializable {
 	// Used in development, not deployment. Probably remove.
 	public void displayDBInfo() throws IOException, SQLException, ClassNotFoundException {
 		String sqlRS = " SELECT * FROM TESTER_EXAMS_LIST_4 ";
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {

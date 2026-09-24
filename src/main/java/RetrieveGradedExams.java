@@ -28,7 +28,7 @@ public class RetrieveGradedExams {
 
 		String sqlRS = " SELECT id, EXAM_NUMBER,  STUDENTLASTNAME, LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS FROM FINAL_GRADED_EXAMS_2 ";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sqlRS);
 				ResultSet rs = stmt.executeQuery()) {
 			byte[] listOfQBytes = null;

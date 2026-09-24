@@ -20,7 +20,7 @@ public class PopulateTesterRows {
 
 	// I think this is one is important, or maybe not. Double check
 	public void populateInitialRowsTester(Integer selectedExamIndex,
-			ArrayList<ArrayList<QuestionSuper>> masterGradedList) throws SQLException, IOException {
+			ArrayList<ArrayList<QuestionSuper>> masterGradedList) throws SQLException, IOException, ClassNotFoundException {
 
 		// THIS INITIALLY POPULATES THE PROF'S ORIGINALS, but why is it in Tester,
 		// and note it's an old table, TESTER_EXAMS_LIST_3
@@ -28,7 +28,7 @@ public class PopulateTesterRows {
 		String insertSQL = "INSERT INTO TESTER_EXAMS_LIST_3 (id, EXAM_NUMBER, "
 				+ "STUDENTLASTNAME,  LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS ) VALUES(?, ?, ?, ?, ?)";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -53,7 +53,7 @@ public class PopulateTesterRows {
 //I MIGHT BE USING THIS, ESPECIALLY THE setOriginalProfExams() METHOD. DOUBLE CHECK, and clean up
 	// Although it uses an outdated table TESTER_EXAMS_LIST_3 - caveat
 	public void setOriginalProfExams(Integer selectedExamIndex, ArrayList<ArrayList<QuestionSuper>> masterGradedList)
-			throws SQLException, IOException {
+			throws SQLException, IOException, ClassNotFoundException {
 		System.out.println("Top of setOriginalProfExams() of the PopulateTesterRows class");
 		// Here is where the prof sets the final exams for the student to retrieve,
 		// except that it is an old table TESTER_EXAMS_LIST_3 instead of the latest
@@ -61,7 +61,7 @@ public class PopulateTesterRows {
 		String insertSQL = "INSERT INTO TESTER_EXAMS_LIST_3 (id, EXAM_NUMBER, "
 				+ "STUDENTLASTNAME,  LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS ) VALUES(?, ?, ?, ?, ?)";
 
-		try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try (Connection conn = DatabaseConfig.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insertSQL)) {
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();

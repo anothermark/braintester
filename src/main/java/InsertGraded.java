@@ -24,7 +24,7 @@ public class InsertGraded {
 	static ArrayList<ArrayList<QuestionSuper>> masterGradedList = new ArrayList<>();
 	ArrayList<QuestionSuper> listOfQuestionsSER;
 
-	public void insertGradedMasterList() throws SQLException, IOException {
+	public void insertGradedMasterList() throws SQLException, IOException, ClassNotFoundException {
 		System.out.println(listOfQuestionsSER + " listOfQuestionsSER is it null? Yes sunday, top of method");
 		//var retrieveRowData = new RetrieveRowData2B();// from tester
 
@@ -69,7 +69,7 @@ public class InsertGraded {
 		String insertSQL = "INSERT INTO TESTER_EXAMS_LIST_3 (id, EXAM_NUMBER, "
 				+ "STUDENTLASTNAME,  LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS ) VALUES(?, ?, ?, ?, ?)";
 
-		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try(Connection conn = DatabaseConfig.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(insertSQL)){
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -119,7 +119,7 @@ public class InsertGraded {
 		String updateSQL = "UPDATE TESTER_EXAMS_LIST_3  SET id = ?, EXAM_NUMBER =?, STUDENTLASTNAME = ?,"
 				+ "LISTOFQUESTIONS = ?, LISTOFGRADEDEXAMSLISTS = ?  WHERE id=?";
 
-		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try(Connection conn = DatabaseConfig.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(updateSQL)){
 
 //  SAturday huge, huge lesson. I HAVE TO SET ALL FIVE PARAMETERS EVEN IF I'M ONLY CHANGING/UPDATING ONE VALUE

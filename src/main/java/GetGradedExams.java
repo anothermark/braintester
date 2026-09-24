@@ -30,7 +30,7 @@ public class GetGradedExams {
 	//SAT 1-17-26 THIS JUST RETURNS THE MASTERLIST SO DISREGARD. ALL BOGUS. I'M USING THE
 	// SERLIST THAT IS PULLED UP IN THE EVALUATE BUTTON?
 	@SuppressWarnings("unchecked")
-	public ArrayList<ArrayList<QuestionSuper>> getMasterGradedList() throws IOException, SQLException {
+	public ArrayList<ArrayList<QuestionSuper>> getMasterGradedList() throws IOException, SQLException, ClassNotFoundException {
 
 		// WED DANGER, DANGER. YOU HAVE TO FIRST PULL THE NESTED LIST OUT OF THE MASTER
 		// LIST, DUMMY
@@ -45,7 +45,7 @@ public class GetGradedExams {
 		// + "STUDENTLASTNAME, LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS )
 		String sqlRS = " SELECT id, EXAM_NUMBER, STUDENTLASTNAME, LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS FROM TESTER_EXAMS_LIST_4 ";
 
-		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try(Connection conn = DatabaseConfig.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(sqlRS);
 		ResultSet rs = stmt.executeQuery()){
 

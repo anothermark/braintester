@@ -32,7 +32,7 @@ public class ReviewStudentExam {
 
 		String sqlRS = " SELECT id, STUDENTLASTNAME,  STUDENTFIRSTNAME, LISTOFQUESTIONS, LISTOFGRADEDEXAMSLISTS FROM Students_Graded_Exams_Table2 ";
 
-		try(Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+		try(Connection conn = DatabaseConfig.getConnection();
 		PreparedStatement stmt = conn.prepareStatement(sqlRS);		
 		ResultSet rs = stmt.executeQuery()){		
 		byte[] listOfMasterBytes = null;
