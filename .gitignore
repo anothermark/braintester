@@ -2,7 +2,7 @@
 # 1. Project Specific / Local Data Files
 # ==========================================
 # Ignore local student data folder
-Builder studentapp_data/
+Tester .brainapps
 
 # Ignore any serialized Java files
 *.ser
