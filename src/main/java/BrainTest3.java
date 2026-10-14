@@ -535,7 +535,7 @@ public class BrainTest3 extends JDialog {
 		panelTopDashboard.setBackground(new Color(192, 192, 192));
 		panelTopDashboard.setBorder(new TitledBorder(
 				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
-				"The Charles Stanley Institute Brain-Tester Dashboard", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				"The Brain-Tester Dashboard", TitledBorder.RIGHT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelTopDashboard.setBounds(34, 0, 1362, 72);
 		getContentPane().add(panelTopDashboard);
 		panelTopDashboard.setLayout(null);
