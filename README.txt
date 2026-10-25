@@ -1,3 +1,5 @@
+README_GIT for the BrainTester 10-25-26 
+
 
 Licenses: Pending 
 Copyright: MKS (2025 - 2026)
@@ -590,12 +592,3 @@ those points down could be challenging and perhaps might not be worth the effort
 11) There might be a way to add or remove the number of exam entries (Exam 1) in the combo box dynamically 
 without having to re-write the code. I have no idea. But as it stands now it's a quick and easy, 
 simple matter, of changing the code in BrainTest3.java to accomplish the same thing. 
-
-
-
-
-
-
-
-
-
