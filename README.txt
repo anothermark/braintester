@@ -1,4 +1,4 @@
-README_GIT for the BrainTester 10-25-26 
+README from README_GIT file for the BrainTester 10-25-26 
 
 
 Licenses: Pending 
