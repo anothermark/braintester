@@ -338,18 +338,18 @@ FINISH THE EXAM - HOW GRADING WORKS --------------------------------------------
 	This outerMasterListofMastersSER is then set/updated in the STUDENTS_OUTERNESTED_TABLE4 table. 
 	Class UpdateFinalStudentExams is important. It contains four (4) methods, one of which 
 	retrieves the triple-nested outerMasterListofMastersSER during the review process. This is 
-	where all of the student's exams are stored.
+	where all of the student's exams are stored. 
 	
-	For those questions evaluated immediately (in the else{} statement) the process is essentially
+	For those questions evaluated immediately (in the else{} statement) the process is essentially 
 	the same. listOfQuestionsSER is cycled through, the number of passing questions are 
-	added up, ++countPass is incremented, and the percentGrade is calculated and displayed.
-	Finally, the listOfQuestionsSER is stored in an outerMasterListofMastersSER which is
+	added up, ++countPass is incremented, and the percentGrade is calculated and displayed. 
+	Finally, the listOfQuestionsSER is stored in an outerMasterListofMastersSER which is 
 	set in table STUDENTS_OUTERNESTED_TABLE4 for subsequent retrieval and review. 
 	
 		
-SAVING EXAMS FOR SUBSEQUENT REVIEW -----------------------------------------------------
+SAVING EXAMS FOR SUBSEQUENT REVIEW ----------------------------------------------------- 
 
-	This is an important final step where the listOfQuestionsSER is saved in a triple-nested
+	This is an important final step where the listOfQuestionsSER is saved in a triple-nested 
 	series of three (3) ArrayLists. The most inner list is the exam listOfQuestionsSER, a list 
 	of anonymous QuestionSuper objects, or 'questions'. This most-inner list is contained in 
 	the middle innerMasterListOfQuestionsSER. Each innerMasterListOfQuestionsSER represents 
@@ -364,22 +364,21 @@ SAVING EXAMS FOR SUBSEQUENT REVIEW ---------------------------------------------
 	would represent Exam 1 which might contain seven (7) listOfQuestionsSER exams (Exam 1). 
 	Index 1 of the outer would refer to Exam 2 which might contain 12 listOfQuestionsSER exams (Exam 2), and so on. 
 	
-	So the outerMasterListofMastersSER contains one or more innerMasterListOfQuestionsSER, which in turn
-	contain individual listOfQuestionsSER exams. And it is this outerMasterListofMastersSER that is
-	serialized and saved to the one and only row in table STUDENTS_OUTERNESTED_TABLE4, all of which happens
-	near the end of the 'Finish' button actionPerformed() method by calling the upDateFinalGradedStudentExams()
+	So the outerMasterListofMastersSER contains one or more innerMasterListOfQuestionsSER, which in turn 
+	contain individual listOfQuestionsSER exams. And it is this outerMasterListofMastersSER that is 
+	serialized and saved to the one and only row in table STUDENTS_OUTERNESTED_TABLE4, all of which happens 
+	near the end of the 'Finish' button actionPerformed() method by calling the upDateFinalGradedStudentExams() 
 	method on an instance of UpdateFinalStudentExams, which in turn calls setOuterMasterListOfMastersSER(). 
 
 CLASS: UpdateFinalStudentExams - Final resting place for graded exams; used for review. Contains four (4) 
 	methods:  a) adds a listOfQuestionsSER to an innerMasterListOfQuestionsSER, and then sets this 
 	innerMasterListOfQuestionsSER in an outerMasterListofMastersSER, and then it b) updates STUDENTS_OUTERNESTED_TABLE4 
 	with outerMasterListofMastersSER, c) gets an outerMasterListofMastersSER from the STUDENTS_OUTERNESTED_TABLE4, 
-	and d) gets a gradeOnceListOfListsSER object from STUDENTS_OUTERNESTED_TABLE4 (which might not be used anymore).
-METHOD: upDateFinalGradedStudentExams() Saves listOfQuestionsSER to the triple-nested outerMasterListofMastersSER.
-METHOD: setOuterMasterListOfMastersSER() Sets the outerMasterListofMastersSER in the STUDENTS_OUTERNESTED_TABLE4 table.
-METHOD: getOuterMasterListOfMastersSER() Gets the outerMasterListofMastersSER from the  STUDENTS_OUTERNESTED_TABLE4 table.
-METHOD: getGradedOnceInnerMasterListSER() [I don't believe I'm using this anymore]. So proceed with caution.
-
+	and d) gets a gradeOnceListOfListsSER object from STUDENTS_OUTERNESTED_TABLE4 (which might not be used anymore). 
+METHOD: upDateFinalGradedStudentExams() Saves listOfQuestionsSER to the triple-nested outerMasterListofMastersSER. 
+METHOD: setOuterMasterListOfMastersSER() Sets the outerMasterListofMastersSER in the STUDENTS_OUTERNESTED_TABLE4 table. 
+METHOD: getOuterMasterListOfMastersSER() Gets the outerMasterListofMastersSER from the  STUDENTS_OUTERNESTED_TABLE4 table. 
+METHOD: getGradedOnceInnerMasterListSER() [I don't believe I'm using this anymore]. So proceed with caution. 
 
 REVIEW GRADED EXAMS ----------------------------------------------------------------
 
@@ -392,11 +391,11 @@ REVIEW GRADED EXAMS ------------------------------------------------------------
 	are populated. To the immediate right in the 'Review of Questions' vertical table the question number, 
 	pass/fail status and topic are filled in, next to adjoining buttons labeled 'R'. Immediately above in the 
 	skinny horizontal table additional information is displayed regarding the most recent exam, such as title, 
-	date of exam, times taken, and latest score.  
+	date of exam, times taken, and latest score. 
 	
-	In WindowBuilder Design mode double-click the blank 'Review Most Recent Graded Exams' pane and switch to Source view
-	to see the code pertaining to this JListOfExams. A DefaultListModel<String> adds String captions for the JList such as
-	Exam 1, Exam 2. When the student selects one such value a JTable initializes it's cells' values to "". A triple-nested
+	In WindowBuilder Design mode double-click the blank 'Review Most Recent Graded Exams' pane and switch to Source view 
+	to see the code pertaining to this JListOfExams. A DefaultListModel<String> adds String captions for the JList such as 
+	Exam 1, Exam 2. When the student selects one such value a JTable initializes it's cells' values to "". A triple-nested 
 	outerMasterListofMastersSER is returned by calling the getOuterMasterListOfMastersSER() near the bottom of the GUI 
 	class BrainTest3. Then, an innerMasterListOfQuestionsSER is retrieved from that outerMasterListofMastersSER depending 
 	on the selected index. Next, the innerMasterListOfQuestionsSER pulls out the latest listOfQuestionsSER exam as follows: 
@@ -405,14 +404,13 @@ REVIEW GRADED EXAMS ------------------------------------------------------------
 
 	For both the vertical and horizontal tables, values are extracted from the listOfQuestionsSER and assigned to variables, 
 	such as questionNumber, passFail, topic (vertical table), and values pertaining to latest exam, title, date of exam, 
-	number of times taken, latest score, and number of correct answers (horizontal table). These values are
+	number of times taken, latest score, and number of correct answers (horizontal table). These values are 
 	displayed in each table like this: 
-	- table.setValueAt(passFail.toUpperCase(), ib + 0, 1);
-	- tableReviewExam.setValueAt(selectedExamIndex + 1, 1, 0);
+	- table.setValueAt(passFail.toUpperCase(), ib + 0, 1); 
+	- tableReviewExam.setValueAt(selectedExamIndex + 1, 1, 0); 
  
  
- 
-REVIEW INDIVIDUAL QUESTIONS -------------------------------------------------------
+REVIEW INDIVIDUAL QUESTIONS ------------------------------------------------------- 
  
 	Once an exam is selected the student might wish to review the details of graded questions. Notice the 
 	radio button labeled 'R' (for Review) to the immediate left of each vertical table row. Clicking that button 
@@ -429,111 +427,109 @@ REVIEW INDIVIDUAL QUESTIONS ----------------------------------------------------
 	Setting a radio button to the previously selected version simply steps through five (5) 'if' statements comparing 
 	selected options, like "Option1" to the previouslySelectedCommand. When there's a match Java sets the 
 	selected radio button to true. 
-	Example: if (previouslySelectedCommand.equals("Option1")) {radButtonA.setSelected(true);
+	Example: if (previouslySelectedCommand.equals("Option1")) {radButtonA.setSelected(true); 
 	Lastly, calling restoreSelection() does the actual work of restoring the selection. 
 	
-	METHOD FLOW: (In the 'R' button)
-	displayReviewQuestion(questionObject, qIndex);
-	restoreSelection();
+	METHOD FLOW: (In the 'R' button) 
+	displayReviewQuestion(questionObject, qIndex); 
+	restoreSelection(); 
    
 
-DELETING GRADED EXAMS -----------------------------------------------------------
+DELETING GRADED EXAMS ----------------------------------------------------------- 
 
 	If desired, once an exam is selected in the JList clicking 'Delete Exam' does just that, beginning 
 	with the first, or oldest, graded exam. deleteGradedRowInReview(innerMasterListOfQuestionsSER) is 
 	called on class DBTesterUtility where removeFirst() is called on the innerMasterListOfQuestionsSER, 
 	removing the oldest listOfQuestionsSER exam. 
 	
-	That modified innerMasterListOfQuestionsSER object is then returned and set in the outerMasterListofMastersSER which is set
-	back in the STUDENTS_OUTERNESTED_TABLE4. Method setOuterMasterListOfMastersSER() is located near the bottom
-	of the BrainTest3 class.
-	Example: innerMasterListOfQuestionsSER = dBTesterUtility.deleteGradedRowInReview(innerMasterListOfQuestionsSER).
+	That modified innerMasterListOfQuestionsSER object is then returned and set in the outerMasterListofMastersSER which is set 
+	back in the STUDENTS_OUTERNESTED_TABLE4. Method setOuterMasterListOfMastersSER() is located near the bottom 
+	of the BrainTest3 class. 
+	Example: innerMasterListOfQuestionsSER = dBTesterUtility.deleteGradedRowInReview(innerMasterListOfQuestionsSER). 
 
 CLASS: DBTesterUtility - Contains five (5) methods, one of which, deleteGradedRowInReview(), deletes a listOfQuestionsSER 
- 	exam from the innerMasterListOfQuestionsSER contained in the outerMasterListofMastersSER.
+ 	exam from the innerMasterListOfQuestionsSER contained in the outerMasterListofMastersSER. 
 METHOD: deleteGradedRowInReview() removes the first, or oldest, listOfQuestionsSER exam and returns 
- 	the innerMasterListOfQuestionsSER.
+ 	the innerMasterListOfQuestionsSER. 
  	
  	
 
-MODIFYING CAPTIONS/LABELS IN THE COMBO BOX DROP-DOWN MENU ---------------------------------
+MODIFYING CAPTIONS/LABELS IN THE COMBO BOX DROP-DOWN MENU --------------------------------- 
 
 	The instructor will probably want to change the exam caption/labels that are displayed in 
 	the JList of the 'Review Most Recent Graded Exams' pane, the default being Exam 1, Exam 2, etc. 
-	When these default values are displayed when the program first loads code in the combo box (to
+	When these default values are displayed when the program first loads code in the combo box (to 
 	the left of 'Begin Exam') first checks the row count in table EXAMS_COMBO_LABELS_1 by calling 
-	rowCountComboLabelsB3() located near the bottom of BrainTest3.java. This table should have only one
-	row to house a single instance of class ExamComboLabelsTester. This class contains String variables
+	rowCountComboLabelsB3() located near the bottom of BrainTest3.java. This table should have only one 
+	row to house a single instance of class ExamComboLabelsTester. This class contains String variables 
 	which populate the combo box menu, plus getters and setters that manipulate this state, 
-	such as setExam1Str(String exam1).
+	such as setExam1Str(String exam1). 
 	
 	If the row count is 0 it is presumed no such row or object exists in the table. In this case loadComboExamLabsB3() INSERTS 
 	an instance of ExamComboLabelsTester into row 1, and Java immediately returns a copy thereof by calling 
 	getExamComboLabelsB3(). The String default values ("Exam 1"...) are extracted from this ExamComboLabelsTester object, 
-	exam1 = examComboLabelsTester.getExam1Str(), and are added to the DefaultComboBoxModel<String>. Those values are what
+	exam1 = examComboLabelsTester.getExam1Str(), and are added to the DefaultComboBoxModel<String>. Those values are what 
 	you see in the combo box drop-down menu. 
 	
-	On the other hand, if the row count is 1, indicating an ExamComboLabelsTester object resides in row 1 - the only row
+	On the other hand, if the row count is 1, indicating an ExamComboLabelsTester object resides in row 1 - the only row 
 	that should exist in this table - Java simply returns (de-serializes) the object by calling getExamComboLabelsB3(), and assigns 
-	its String values to String variables that are added to the DefaultComboBoxModel<String>.
+	its String values to String variables that are added to the DefaultComboBoxModel<String>. 
 
 	One may change these values (ie., 'Exam 1' to 'Exam 1 - The Trinity') from the Tester, not from the Builder. Click 'Combo Labels' 
 	near the bottom-right of the screen, provide the password 'meboss' without quotes, and a dialog will appear with 10 default 
 	values and text fields. Simply edit the text fields and press 'Yes'. Regrettably, you will be informed that the program 
-	must close and that you must restart it to see those newly modified exam captions (a minor inconvenience, at most, for now)
+	must close and that you must restart it to see those newly modified exam captions (a minor inconvenience, at most, for now) 
 	until I figure out how to dynamically display those changes on the fly. 
 	
-	As for the code, you're getting an ExamComboLabelsTester from THE EXAMS_COMBO_LABELS_1 table and use it to extract and display
-	those String values in the dialog pop-up. Then, changes made are set in the EXAMS_COMBO_LABELS_1 table, and those new
-	values are set in the object and displayed as new values:
-	examComboLabelsTester.setExam1Str(exam1LabelStr);
-	jTextField1.setText(examComboLabelsTester.getExam1Str());
+	As for the code, you're getting an ExamComboLabelsTester from THE EXAMS_COMBO_LABELS_1 table and use it to extract and display 
+	those String values in the dialog pop-up. Then, changes made are set in the EXAMS_COMBO_LABELS_1 table, and those new 
+	values are set in the object and displayed as new values: 
+	examComboLabelsTester.setExam1Str(exam1LabelStr); 
+	jTextField1.setText(examComboLabelsTester.getExam1Str()); 
 	
-	Finally, this object with its updated values is sent back to, and UPDATED in, the EXAMS_COMBO_LABELS_1 table:
-	setComboLabelsB3(examComboLabelsTester);
+	Finally, this object with its updated values is sent back to, and UPDATED in, the EXAMS_COMBO_LABELS_1 table: 
+	setComboLabelsB3(examComboLabelsTester); 
 	
-	You also may wish to delete the row and ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1. Click
+	You also may wish to delete the row and ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1. Click 
 	'DeleteLabs' and enter the password 'meboss'. Java calls deleteExamsComboRowsB3(), deletes the row, 
 	gets the new row count by calling rowCountComboLabelsB3() and sets that new parsed count value in the 
-	text field textFieldComboRows: textFieldComboRows.setText(comboRowsIntDel.toString()).
+	text field textFieldComboRows: textFieldComboRows.setText(comboRowsIntDel.toString()). 
 
-CLASS: ExamComboLabelsTester - Contains String values for display in the combo box drop-down menu.
-METHOD: setExam1Str() sets the Strings.
-METHOD: getExam1Str() gets the Strings.
+CLASS: ExamComboLabelsTester - Contains String values for display in the combo box drop-down menu. 
+METHOD: setExam1Str() sets the Strings. 
+METHOD: getExam1Str() gets the Strings. 
 
-(Additional methods utilized are located below the constructor near the bottom of BrainTest3.java.)
-METHOD: loadComboExamLabsB3() INSERTS an ExamComboLabelsTester into table EXAMS_COMBO_LABELS_1.
-METHOD: setComboLabelsB3() UPDATES table EXAMS_COMBO_LABELS_1 with an instance of ExamComboLabelsTester.
-METHOD: getExamComboLabelsB3() returns an instance of ExamComboLabelsTester from table EXAMS_COMBO_LABELS_1.
-METHOD: rowCountComboLabelsB3() returns the number of rows in table EXAMS_COMBO_LABELS_1 (0 or 1).
-METHOD: deleteExamsComboRowsB3() deletes the 1st row and ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1.
+(Additional methods utilized are located below the constructor near the bottom of BrainTest3.java.) 
+METHOD: loadComboExamLabsB3() INSERTS an ExamComboLabelsTester into table EXAMS_COMBO_LABELS_1. 
+METHOD: setComboLabelsB3() UPDATES table EXAMS_COMBO_LABELS_1 with an instance of ExamComboLabelsTester. 
+METHOD: getExamComboLabelsB3() returns an instance of ExamComboLabelsTester from table EXAMS_COMBO_LABELS_1. 
+METHOD: rowCountComboLabelsB3() returns the number of rows in table EXAMS_COMBO_LABELS_1 (0 or 1). 
+METHOD: deleteExamsComboRowsB3() deletes the 1st row and ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1. 
 
-CHANGING THE TESTER FAQ TEXT ------------------------------------------
+CHANGING THE TESTER FAQ TEXT ----------------------------------------------------------- 
 
-	At some point the Tester FAQ text will probably need to be modified. The FAQ is accessed by selecting the FAQ tab.
+	At some point the Tester FAQ text will probably need to be modified. The FAQ is accessed by selecting the FAQ tab. 
 	In WindowBuilder's Design view double-click the tab to see a JList in the left pane with subject 
-	captions, and a blank JTextArea to the right which displays information pertaining to a selected subject.
+	captions, and a blank JTextArea to the right which displays information pertaining to a selected subject. 
 	
-	Double-click the JList for the source code and notice how the AbstractListModel<String>(), populated with
+	Double-click the JList for the source code and notice how the AbstractListModel<String>(), populated with 
 	caption String values, is set in the JListFAQ. Scroll down and also notice how a series of if/else 
-	statements calls loadFAQData(selectedExamIndex) on an FaqData object. Class FAQData is where the text Strings,
+	statements calls loadFAQData(selectedExamIndex) on an FaqData object. Class FAQData is where the text Strings, 
 	assigned to variables, are kept. Method loadFAQData() loads and returns one such variable depending on the 
 	selectedExamIndex global Integer variable, which captures the index value of the selected JList caption. 
-	Example: else if (selectedExamIndex == 2) {textAreaFAQ.setText(faqData.loadFAQData(selectedExamIndex)).
+	Example: else if (selectedExamIndex == 2) {textAreaFAQ.setText(faqData.loadFAQData(selectedExamIndex)). 
 	
 	If you only want to change the existing text just modify those String values, save the file and that should do it. 
-	But if you want to add or remove topic captions from the JList, and add or remove String variables in the FaqData
+	But if you want to add or remove topic captions from the JList, and add or remove String variables in the FaqData 
 	object, you will need to add or remove 'if' statements, and/or new String variables, and do some basic 
 	re-alignment. It's rather self-explanatory. 
 
 CLASS: FAQData contains the text data/Strings which are displayed in the FAQ tab's JTextArea's pane 
-	when a JList option is selected.
-METHOD: loadFAQData() assigns blocks of text values to String variables, and returns one such
+	when a JList option is selected. 
+METHOD: loadFAQData() assigns blocks of text values to String variables, and returns one such 
 	variable depending on which FAQ JList caption selected. 
 
-
-
-MISCELLANEOUS: ------------------------------------------------------------------
+MISCELLANEOUS: ------------------------------------------------------------------ 
 AND TODO 
 
 The Tester and Builder apps can be modified, re-factored, made pretty, and otherwise improved. 
@@ -556,42 +552,42 @@ consider implementing.
  never part of the calculation. After all, only one person at a time reads or writes 
  to the embedded database. 
  
-4) The same reasoning applies to security issues such as protecting against injection
-  attacks and other such evils. The student is free to crash his or her own app if
-  that's what he/she wants to do.  
+4) The same reasoning applies to security issues such as protecting against injection 
+  attacks and other such evils. The student is free to crash his or her own app if 
+  that's what he/she wants to do. 
 
-5) For those students who choose the 'grade once' evaluation scheme, where a student's
+5) For those students who choose the 'grade once' evaluation scheme, where a student's 
  choice, his answer, an ArrayList<Boolean> (radioButtonSelections) is added to a gradeOnceListOfListsSER list 
  whenever 'Evaluate' is clicked, to be graded at the end of the exam - those values reside in memory 
- for the duration of the test. But if a student wants to take a break, go to lunch, take a nap ... his previous answers
- might be lost from memory forever. The best solution would be to save and immediately retrieve the
+ for the duration of the test. But if a student wants to take a break, go to lunch, take a nap ... his previous answers 
+ might be lost from memory forever. The best solution would be to save and immediately retrieve the 
  gradeOnceListOfListsSER list at the end of each 'Evaluate' so the latest version always resides in the database. 
  And I forget if I already did this. 
 
-6) CSI might wish to move the stand-alone versions of the Tester and Builder online, which is a reasonable
+6) CSI might wish to move the stand-alone versions of the Tester and Builder online, which is a reasonable 
 expectation. It is possible, but a lot of time-consuming work, the details of which go 
-beyond this short paragraph. No doubt your Java experts will be able to make that transition
+beyond this short paragraph. No doubt your Java experts will be able to make that transition 
 for the institute. But it is beyond my skill-level for the time being. 
 
-7)  Still a problem 5-13. Later. 4-26 Here is another headache, but minor compared to the others. 'Topic' won't clear to "" when clicking from exam 2 to exam 1
-// if Exam 1 has 1 question and Exam 2 has 2 questions. STUMPED.
-table.setValueAt("", 0 + 0, 0);
-table.setValueAt("", 1 + 0, 1);
-table.setValueAt("", 2 + 0, 2); // this is topic but it won't clear to "" when going from exam 2 to exam 1
-table.setValueAt("", 3 + 0, 3); // empty misc
+7)  Still a problem 5-13. Later. 4-26 Here is another headache, but minor compared to the others. 'Topic' won't clear to "" when clicking from exam 2 to exam 1 
+// if Exam 1 has 1 question and Exam 2 has 2 questions. STUMPED. 
+table.setValueAt("", 0 + 0, 0); 
+table.setValueAt("", 1 + 0, 1); 
+table.setValueAt("", 2 + 0, 2); // this is topic but it won't clear to "" when going from exam 2 to exam 1 
+table.setValueAt("", 3 + 0, 3); // empty misc 
 
 8) Is last and first name validation necessary? For a single-user stand-alone app? It's annoying. 
 
 9) Should start/end times be saved on each exam? Some students might want that. 
 
 10) In the drop-down combo box menu where the first entry is 'Exam 1', it is possible to change 
-that to something on the lines of 'Select an Exam'. The problem is that it shifts all of the
+that to something on the lines of 'Select an Exam'. The problem is that it shifts all of the 
 selected indexes by one. So where 'Exam 1' has an index of 0, that would change to an index of 1, 
 and on down the line. Accordingly, all references throughout the program to the old index 0 would 
 have to be changed to reflect and accommodate that, and other things related to that index. Tracking 
-those points down could be challenging and perhaps might not be worth the effort. 
+those points down could be challenging and perhaps might not be worth the effort.  
 
-11) There might be a way to add or remove the number of exam entries (Exam 1) in the combo box dynamically
+11) There might be a way to add or remove the number of exam entries (Exam 1) in the combo box dynamically 
 without having to re-write the code. I have no idea. But as it stands now it's a quick and easy, 
 simple matter, of changing the code in BrainTest3.java to accomplish the same thing. 
 
