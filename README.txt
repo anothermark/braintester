@@ -41,17 +41,17 @@ BRAIN TESTER - THE BIG PICTURE ----------------------------------------
 	 An exam was 'retrieved' initially by the student from the TESTER_EXAMS_LIST_4 table in the embedded H2 database 
 	 when 'Begin Exam' is selected. But since refactoring the program significantly, that exam is now retrieved from 
 	 the DISPLAY_EXAMS_QUESTIONS_TABLE_1 in the DisplayExamsAndQuestions class. As such, you  might see 
-	 old references to the TESTER_EXAMS_LIST_4 table, especially in the Builder app.
+	 old references to the TESTER_EXAMS_LIST_4 table, especially in the Builder app. 
 	 
-	 The variable listOfQuestionsSER is a list of QuestionSuper anonymous objects, which you will use often in
+	 The variable listOfQuestionsSER is a list of QuestionSuper anonymous objects, which you will use often in 
 	 this program. Any exam can be taken multiple times (max 10 for now); results of these exams are stored 
 	 until deleted. Once the exam is finished and graded, the latest exam taken may be reviewed. 
 	 
-	 Two evaluation schemes are available. The first evaluates and grades each question immediately and provides
+	 Two evaluation schemes are available. The first evaluates and grades each question immediately and provides 
 	 immediate feedback (recommended). Select an answer, click 'Evaluate' and review the results, then click 'Next'. The 
 	 second scheme accumulates all answered questions first (into a list of ArrayList<Boolean> objects) with 
 	 no immediate feedback, then grades them in bulk when Finish is selected. During the review stage each 
-	 question from the most recent finished exam can be accessed and studied.
+	 question from the most recent finished exam can be accessed and studied. 
 	 
 	 All completed and graded exams are stored in a triple-nested outerMasterListofMastersSER ArrayList and written to - 
 	 or serialized and saved to - the STUDENTS_OUTERNESTED_TABLE4 table. When reviewing an exam and 
@@ -59,79 +59,79 @@ BRAIN TESTER - THE BIG PICTURE ----------------------------------------
 	 and used to display those graded exam details. 
 	 
  
-THE TESTER GRAPHICAL USER INTERFACE (GUI) BrainTest3.java -------------------------------------------
+THE TESTER GRAPHICAL USER INTERFACE (GUI) BrainTest3.java ------------------------------------------- 
 
-	The entry-point and main class that displays the GUI is BrainTest3.java comprising around 4,200 lines of code.
+	The entry-point and main class that displays the GUI is BrainTest3.java comprising around 4,200 lines of code. 
 	Virtually all of the code in this file, including Swing Java code, resides inside the constructor. A fair amount of logic 
-	exists in this constructor as well; not mere method calls to other classes. If you are familiar with WindowBuilder then
+	exists in this constructor as well; not mere method calls to other classes. If you are familiar with WindowBuilder then 
 	you know that double-clicking on a button will take you to the actionPerformed() method of the button's 
-	ActionListener, and code exists in these actionPerformed() methods. So if you wish to follow
+	ActionListener, and code exists in these actionPerformed() methods. So if you wish to follow 
 	the train of logic and method flow, that's a good place to look. For instance, classes are instantiated 
-	there, methods called and values passed and returned, etc.
+	there, methods called and values passed and returned, etc. 
 	
 	The same goes, for example, with JLists. Click on a JList pane in Design view, then move from the Design 
 	to Source view to see relevant source code. So code you see after you click on the JListOfExams 
 	directly above the 'Review Most Recent Graded Exams' label adds String values to the DefaultListModel<String>, 
 	captures String and other values and sets them in JTables, clears tables, averages grades and formats them, etc. 
 	
-	But rather than wade through each GUI component and explain what it does, this READ_ME_TESTER explains functions
+	But rather than wade through each GUI component and explain what it does, this READ_ME_TESTER explains functions 
 	as it relates to specific tasks, like selecting or beginning an exam, or reviewing graded exams. 
  
-SELECT AN EXAM -------------------------------------------------------------------------------------------------
+SELECT AN EXAM ------------------------------------------------------------------------------------------------- 
  
-	After the Tester program executes, but before an exam is selected, the student must fill out last name
-	and first name text fields. No numbers/digits or special characters permitted, and maximum character
-	count is 25. Last and first names are always stored in the first anonymous QuestionSuper subclass
+	After the Tester program executes, but before an exam is selected, the student must fill out last name 
+	and first name text fields. No numbers/digits or special characters permitted, and maximum character 
+	count is 25. Last and first names are always stored in the first anonymous QuestionSuper subclass 
 	in the ArrayList of QuestionSuper objects, an  ArrayList<QuestionSuper> listOfQuestionsSER. After 
-	providing the (annoying) requisite names, an exam must first be selected from the drop-down menu by clicking on
-	the arrow EACH TIME and clicking the specific exam from the drop-down JComboBox, such as 'Exam 1 - The Incarnation'.
-	Beware, even for Exam 1, the user must drop down the menu list and select the exam specifically. Upon selection,
-	that selected index value is captured with selectedExamIndex = comboBoxSelectExam.getSelectedIndex()
-	and is assigned to the very important and often-used selectedExamIndex, a global Integer variable.
+	providing the (annoying) requisite names, an exam must first be selected from the drop-down menu by clicking on 
+	the arrow EACH TIME and clicking the specific exam from the drop-down JComboBox, such as 'Exam 1 - The Incarnation'. 
+	Beware, even for Exam 1, the user must drop down the menu list and select the exam specifically. Upon selection, 
+	that selected index value is captured with selectedExamIndex = comboBoxSelectExam.getSelectedIndex() 
+	and is assigned to the very important and often-used selectedExamIndex, a global Integer variable. 
 	
-	The ExamComboLabelsTester class contains references to String variables which are displayed in the combo box,
-	such as the default value 'Exam 1'. Methods like setExam1Str() and getExam1Str() manipulate that state.
+	The ExamComboLabelsTester class contains references to String variables which are displayed in the combo box, 
+	such as the default value 'Exam 1'. Methods like setExam1Str() and getExam1Str() manipulate that state. 
 	Additionally, five (5) relevant methods located at the bottom of the primary GUI class BrainTest3.java 
 	do the following: a) INSERT an 	ExamComboLabelsTester instance into table EXAMS_COMBO_LABELS_1, 
 	b) UPDATE an instance in table EXAMS_COMBO_LABELS_1, c) retrieves an instance from the same table, 
 	d) returns a row count from table EXAMS_COMBO_LABELS_1, and e) deletes a row from the table. There is 
-	only one row in table EXAMS_COMBO_LABELS_1 which holds only one instance of ExamComboLabelsTester in row 1.
+	only one row in table EXAMS_COMBO_LABELS_1 which holds only one instance of ExamComboLabelsTester in row 1. 
 	
-	When BrainTest3.java is first loaded Java checks table EXAMS_COMBO_LABELS_1 to see if it contains an ExamComboLabelsTester
-	in the first row, and if not it creates one, INSERTS it in the first and only row, then gets (de-serializes) a copy. The
+	When BrainTest3.java is first loaded Java checks table EXAMS_COMBO_LABELS_1 to see if it contains an ExamComboLabelsTester 
+	in the first row, and if not it creates one, INSERTS it in the first and only row, then gets (de-serializes) a copy. The 
 	returned ExamComboLabelsTester object gets those String values, assigns them to String variables, and assigns those 
-	variables (ie., exam1) to the DefaultComboBoxModel<String>. Those String values are what appear in the combo box drop-down menu.
+	variables (ie., exam1) to the DefaultComboBoxModel<String>. Those String values are what appear in the combo box drop-down menu. 
 	
 	As explained in the section MODIFYING CAPTIONS/LABELS IN THE COMBOBOX DROP-DOWN MENU, this class and these 
-	methods are also used when the creator/instructor changes the labels/captions in this combo box. Note, 
-	changes to these combo box captions are made in the Tester, not the Builder app.
+	methods are also used when the creator/instructor changes the labels/captions in this combo box. Note,  
+	changes to these combo box captions are made in the Tester, not the Builder app. 
 	
 	Note* If you wish to add (or subtract) more exams to the drop-down JComboBox they must be hard-coded; 
-	no dynamic modification is available at this time.
+	no dynamic modification is available at this time. 
 
 CLASS: ExamComboLabelsTester - Currently contains 10 String variables (exam1), 10 setters (setExam1Str()) 
-	and 10 getters (getExam1Str()).
+	and 10 getters (getExam1Str()). 
 
-(These additional methods are located in BrainTest3.java below the BrainTest3 constructor)
-METHOD: loadComboExamLabsB3() - INSERTS a ExamComboLabelsTester in table EXAMS_COMBO_LABELS_1.
-METHOD: setComboLabelsB3() - UPDATES a ExamComboLabelsTester in table EXAMS_COMBO_LABELS_1.
-METHOD: getExamComboLabelsB3() - Returns an ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1.
-METHOD: rowCountComboLabelsB3() - Initially returns a row count from table to determine if an object in row 1 exists.
-		0 rows indicates no object, and 1 indicates an existing object (and row) in the EXAMS_COMBO_LABELS_1 table.
-		DANGER DANGER. BUT WHAT IF THAT OBJECT IS DELETED BUT NOT THE ROW????? must I test for that object
-		as well????? But if there is no way to delete that object is it a problem??? It shouldn't be. The
+(These additional methods are located in BrainTest3.java below the BrainTest3 constructor) 
+METHOD: loadComboExamLabsB3() - INSERTS a ExamComboLabelsTester in table EXAMS_COMBO_LABELS_1. 
+METHOD: setComboLabelsB3() - UPDATES a ExamComboLabelsTester in table EXAMS_COMBO_LABELS_1. 
+METHOD: getExamComboLabelsB3() - Returns an ExamComboLabelsTester object from table EXAMS_COMBO_LABELS_1. 
+METHOD: rowCountComboLabelsB3() - Initially returns a row count from table to determine if an object in row 1 exists. 
+		0 rows indicates no object, and 1 indicates an existing object (and row) in the EXAMS_COMBO_LABELS_1 table. 
+		DANGER DANGER. BUT WHAT IF THAT OBJECT IS DELETED BUT NOT THE ROW????? must I test for that object 
+		as well????? But if there is no way to delete that object is it a problem??? It shouldn't be. The 
 		next method only removes the row, it doesn't set the object to null. 
-METHOD: deleteExamsComboRowsB3() - deletes the row and object in table EXAMS_COMBO_LABELS_1.
+METHOD: deleteExamsComboRowsB3() - deletes the row and object in table EXAMS_COMBO_LABELS_1. 
 
 
-BEGIN THE EXAM ------------------------------------------------------
+BEGIN THE EXAM ------------------------------------------------------ 
  
 	Click 'Begin Exam' whereupon a dialog prompts the student/user to choose a preferred question evaluation 
 	timing scheme. The student may choose to evaluate each question immediately (recommended) upon its 
 	completion (Evaluate) by clicking 'Yes'. Once each such question is evaluated, the correct/incorrect graded answers 
 	(pass or fail) and explanations will be displayed immediately for immediate review. The returned 
 	value (true for 0) is assigned to a global boolean variable 'evalGradeImmediately' which is also used 
-	to determine which questions/answers to display.
+	to determine which questions/answers to display. 
 	
 	On the other hand, the student might prefer a more traditional approach and grade all questions in bulk 
 	one time at the end of the exam when the 'Finish' button is selected. If that's the preferred scheme, 
@@ -141,39 +141,39 @@ BEGIN THE EXAM ------------------------------------------------------
 	the graded answers. After each click of 'Evaluate' the 'answer' - consisting of a 'radioButtonSelections' list, which is 
 	an ArrayList<Boolean> - is added to gradeOnceListOfListsSER (ArrayList<ArrayList<Boolean>>), a list of ArrayList<Boolean> 
 	objects. And it is this gradeOnceListOfListsSER which is compared at the end, one time, with the instructor's correct 
-	answers; ArrayLists of lists compared for equality.
+	answers; ArrayLists of lists compared for equality. 
 	
 	In the 'grade once' scheme this ArrayList<ArrayList<Boolean>> gradeOnceListOfListsSER is stored 
-	in table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1
-	every time a question's answer is selected and then evaluated. Once set/updated in the table it is immediately retrieved
-	for the next question. Because all of a student's radioButtonSelections answers are set in the gradeOnceListOfListsSER,
-	and that gradeOnceListOfListsSER resides in memory during the taking of the exam, it seems prudent to
+	in table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1 
+	every time a question's answer is selected and then evaluated. Once set/updated in the table it is immediately retrieved 
+	for the next question. Because all of a student's radioButtonSelections answers are set in the gradeOnceListOfListsSER, 
+	and that gradeOnceListOfListsSER resides in memory during the taking of the exam, it seems prudent to 
 	store them for future use in the event a connection goes down, or the student takes a lunch break during the 
 	exam and wishes to resume at a later time. Though I'm not sure why anyone would take lunch during the test. But you get 
 	the idea. On the other hand, evaluating each question immediately differs in that with each evaluation 
 	the results are set in the individual object and could theoretically be retrieved if the exam 
 	is interrupted; not all would be lost. 
 	
-	But in the 'grade once' scheme it is important to clear out the database table and get rid of the gradeOnceListOfListsSER
+	But in the 'grade once' scheme it is important to clear out the database table and get rid of the gradeOnceListOfListsSER 
 	at the end of the exam, and also at the beginning of each exam. Accordingly, at the beginning of the 
-	'Begin Exam' button section the gradeOnceListOfListsSER is retrieved using the getEvaluatedList() method of the
-	EvaluateAnswersLists class, and then that single row of the table is deleted so that a fresh null copy can be
-	retrieved at a later time:
-	gradeOnceListOfListsSER = evaluateAnswersLists.getEvaluatedList();
-	evaluateAnswersLists.deleteRowsEval(selectedExamIndex);
+	'Begin Exam' button section the gradeOnceListOfListsSER is retrieved using the getEvaluatedList() method of the 
+	EvaluateAnswersLists class, and then that single row of the table is deleted so that a fresh null copy can be 
+	retrieved at a later time: 
+	gradeOnceListOfListsSER = evaluateAnswersLists.getEvaluatedList(); 
+	evaluateAnswersLists.deleteRowsEval(selectedExamIndex); 
 	
 	Click 'Evaluate' during the exam and (below the long switch/case blocks) another fresh copy of the 
-	gradeOnceListOfListsSER is retrieved, and question-by-question a student's radioButtonSelections is
-	added to the list:
-	gradeOnceListOfListsSER.add(radioButtonSelections);
+	gradeOnceListOfListsSER is retrieved, and question-by-question a student's radioButtonSelections is 
+	added to the list: 
+	gradeOnceListOfListsSER.add(radioButtonSelections); 
 	
-	Lastly, when 'Finish' is selected those answers in the gradeOnceListOfListsSER  
+	Lastly, when 'Finish' is selected those answers in the gradeOnceListOfListsSER 
 	are pulled directly out of the database and processed during the evaluation/grading phase. 
 			
 	Double-click 'Begin Exam' in the WindowBuilder Design view and you will see the call getProfListFromDB.getRowData(selectedExamIndex) 
 	which returns a listOfQuestionsSER, an ArrayList<QuestionSuper>, from the DISPLAY_EXAMS_QUESTIONS_TABLE_1 table from 
 	where the student retrieves the exam to begin. See the READ_ME_BUILDER file for a detailed explanation of this, 
-	and other, related database tables.
+	and other, related database tables. 
 	 
 	When the exam begins, it cycles through this listOfQuestionsSER, one QuestionSuper object at a time, and populates 
 	question and answer text fields accordingly, along with other information such as exam and question number, title, 
@@ -186,49 +186,48 @@ BEGIN THE EXAM ------------------------------------------------------
 	
 	Then, updateGradedExams.updateGradedExam(selectedExamIndex, listOfQuestionsSER, lastNameStudent) UPDATES 
 	the FINAL_GRADED_EXAMS_2 table. And then listOfQuestionsSER = retrieveGradedExams.getGradedExam(selectedExamIndex) returns a fresh 
-	copy of listOfQuestionsSER from table FINAL_GRADED_EXAMS_2. Once the student has pulled up the exam from the DISPLAY_EXAMS_QUESTIONS_TABLE_1 table  
-	to initially grab the exam, the student never returns to TESTER_EXAMS_LIST_4. In other words, the instructor/creator stores his finished
+	copy of listOfQuestionsSER from table FINAL_GRADED_EXAMS_2. Once the student has pulled up the exam from the DISPLAY_EXAMS_QUESTIONS_TABLE_1 table 
+	to initially grab the exam, the student never returns to TESTER_EXAMS_LIST_4. In other words, the instructor/creator stores his finished 
 	exam in table DISPLAY_EXAMS_QUESTIONS_TABLE_1 for the student, and the student gets that exam from DISPLAY_EXAMS_QUESTIONS_TABLE_1 
-	when the exam launches. With text fields populated, now the exam can begin.
-
+	when the exam launches. With text fields populated, now the exam can begin. 
 
 CLASS:  GetProfListFromDB (located in the BrainBuilder8 package) de-serializes and returns listOfQuestionsSER from 
-	the 'second' TESTER_EXAMS_LIST_4 table (prof's final table).
-METHOD: getRowData() - Returns a listOfQuestionsSER from table TESTER_EXAMS_LIST_4.
+	the 'second' TESTER_EXAMS_LIST_4 table (prof's final table). 
+METHOD: getRowData() - Returns a listOfQuestionsSER from table TESTER_EXAMS_LIST_4. 
 
-CLASS: UpdateGradedExams - UPDATES listOfQuestionsSER in the FINAL_GRADED_EXAMS_2 table.
-METHOD: updateGradedExam() - Used to UPDATE listOfQuestionsSER in FINAL_GRADED_EXAMS_2, and yes, I now regret naming the method
+CLASS: UpdateGradedExams - UPDATES listOfQuestionsSER in the FINAL_GRADED_EXAMS_2 table. 
+METHOD: updateGradedExam() - Used to UPDATE listOfQuestionsSER in FINAL_GRADED_EXAMS_2, and yes, I now regret naming the method 
 	virtually the same as the class. 
 
-CLASS: RetrieveGradedExams - Gets a listOfQuestionsSER from FINAL_GRADED_EXAMS_2.
-METHOD: getGradedExam() - Returns a listOfQuestionsSER from FINAL_GRADED_EXAMS_2.
+CLASS: RetrieveGradedExams - Gets a listOfQuestionsSER from FINAL_GRADED_EXAMS_2. 
+METHOD: getGradedExam() - Returns a listOfQuestionsSER from FINAL_GRADED_EXAMS_2. 
 
-METHOD FLOW:
-listOfQuestionsSER = getProfListFromDB.getRowData(selectedExamIndex);
-updateGradedExams.updateGradedExam(selectedExamIndex, listOfQuestionsSER, lastNameStudent);
-listOfQuestionsSER = retrieveGradedExams.getGradedExam(selectedExamIndex);
+METHOD FLOW: 
+listOfQuestionsSER = getProfListFromDB.getRowData(selectedExamIndex); 
+updateGradedExams.updateGradedExam(selectedExamIndex, listOfQuestionsSER, lastNameStudent); 
+listOfQuestionsSER = retrieveGradedExams.getGradedExam(selectedExamIndex); 
 
 
-NAVIGATING WITH NEXT/PREVIOUS ---------------------------------------------------------------
+NAVIGATING WITH NEXT/PREVIOUS --------------------------------------------------------------- 
 
 	When 'Next' is clicked three (3) validation tests are performed. First, if no answer has been selected and 'Evaluate' 
 	has not been clicked the student may not move on (this might not be correct any more). Second, you may not click 
 	the Next, Evaluate or Finish buttons until you begin an exam (well, I suppose you can click them if you want). 
 	And third, if the last question has been answered and evaluated there is no 'next' to move on to. So you might 
-	as well stop clicking the 'Next' button. Click 'Finish' instead.
+	as well stop clicking the 'Next' button. Click 'Finish' instead. 
 	
 	By the time the first 'Next' is clicked, the 'Begin Exam' process has already retrieved a copy of global listOfQuestionsSER, 
-	a list of anonymous QuestionSuper objects, the life-blood of the application. Calling isQuestionGraded() on each such object returns
+	a list of anonymous QuestionSuper objects, the life-blood of the application. Calling isQuestionGraded() on each such object returns 
 	true or false. If false, the question has not been evaluated and accordingly the text fields are populated with, among other 
 	things, the original question and possible answers, not the correct answers, obviously, because the question has not been 
 	graded and there is nothing to review. Look for textAreaAns1.setText(questionObject.getAnswer1()) as illustrative. An 
 	answer is chosen by selecting a JRadioButton option, the 'selectedValue' being stored in each QuestionSuper 
-	object - 'true' if selected, with 'false' being the default for all 5 values in the list.
+	object - 'true' if selected, with 'false' being the default for all 5 values in the list. 
 	
 	But if isQuestionGraded() returns true, the question has been evaluated, whether immediately, or at the end of the 
 	exam. In this case 	questions and answers are being reviewed. For instance, in addition to detailed explanations, 
 	correct answers are displayed in text fields and preview panes. An example of setting a field to the correct 
-	answer is: textAreaAns1.setText(questionObject.getCorrectAnswer1()).
+	answer is: textAreaAns1.setText(questionObject.getCorrectAnswer1()). 
 	
 	The 'Previous' button is only workable during the review stage, when reviewing graded exams and questions, whether 
 	during immediate evaluation, or after the conclusion of the exam. The logic is essentially the same as that 
@@ -237,20 +236,19 @@ NAVIGATING WITH NEXT/PREVIOUS --------------------------------------------------
 	'Previous' will not work until after all questions have been graded. Traversing backward during the exam is not possible. 
 	Again, 'Previous' only works after 'Finish' has been clicked - and then only during the review phase. If one is tempted to 
 	click 'Previous' during the exam the message displayed is basically 'You cannot click the 'Previous' button until you review a 
-	finished and graded exam. Click 'Evaluate', or 'Next' to proceed to the next question, or 'Finish'.
-	
+	finished and graded exam. Click 'Evaluate', or 'Next' to proceed to the next question, or 'Finish'. 	
 
 EVALUATE (Grade) EACH QUESTION IMMEDIATELY AND REVIEW ------------------------------------------- 
 
-	As explained above, many people prefer to have each question evaluated, graded and reviewed immediately (recommended). An
-	answer is selected, 'Evaluate' is clicked, and pass/fail is displayed along with the correct answers
+	As explained above, many people prefer to have each question evaluated, graded and reviewed immediately (recommended). An 
+	answer is selected, 'Evaluate' is clicked, and pass/fail is displayed along with the correct answers 
 	including detailed explanations and other useful and relevant information. Clicking 'Begin Exam' prompts 
-	the user to make that choice - grade immediately or at the end of the exam.
+	the user to make that choice - grade immediately or at the end of the exam. 
 	
 	Assuming the user chooses to evaluate and grade each question immediately (if (evalGradeImmediately == true){}), 
 	the first code of consequence in the actionPerformed() method of the 'Evaluate' button (section) captures the student's 
 	radio button answer selection. Notice the selectionSaver ActionListener() at the very top of the BrainTest3 
-	constructor which gets and sets the selectedCommand.
+	constructor which gets and sets the selectedCommand. 
 		
 	First, an ArrayList<Boolean> (radioButtonSelections) is initialized with five (5) false values. And then 
 	a series of if statements captures the specific selection and sets that particular list index to true.  
@@ -258,38 +256,37 @@ EVALUATE (Grade) EACH QUESTION IMMEDIATELY AND REVIEW --------------------------
 	set in the object (listOfQuestionsSER.get(qIndex).setPassFail("PASS"))), 
 	then retrieved and displayed in the pass/fail text field in red at the bottom of your screen next to 'Finish'. 
 	
-	When a button selection is made and assigned to a student's radioButtonSelections, that radioButtonSelections
+	When a button selection is made and assigned to a student's radioButtonSelections, that radioButtonSelections 
 	when evaluated is compared to the instuctor's correct answer (theProfsCorrectAnswers - the Crown Jewels) which is 
 	retrieved from the OUTER_MASTER_ANSWERS_TABLE_1 table using the getOuterMasterCorrectAns() method 
-	of the OuterMasterCorrectAnswers class, like this:
-	OuterMasterCorrectAnswers outerMasterCorrectAnswers = new OuterMasterCorrectAnswers();
-	outerMasterCorrectAnswersProfs = outerMasterCorrectAnswers.getOuterMasterCorrectAns();
-	masterListOfProfsCorrectAnswers = outerMasterCorrectAnswersProfs.get(selectedExamIndex);
-	theProfsCorrectAnswers = masterListOfProfsCorrectAnswers.get(qIndex);
+	of the OuterMasterCorrectAnswers class, like this: 
+	OuterMasterCorrectAnswers outerMasterCorrectAnswers = new OuterMasterCorrectAnswers(); 
+	outerMasterCorrectAnswersProfs = outerMasterCorrectAnswers.getOuterMasterCorrectAns(); 
+	masterListOfProfsCorrectAnswers = outerMasterCorrectAnswersProfs.get(selectedExamIndex); 
+	theProfsCorrectAnswers = masterListOfProfsCorrectAnswers.get(qIndex); 
 	
-	And then, if evaluation is immediate, the student's and instructors two
-	lists are compared for equality. For the grade once version, they are compared
+	And then, if evaluation is immediate, the student's and instructors two 
+	lists are compared for equality. For the grade once version, they are compared 
 	later during the Finish stage: 
 	if (radioButtonSelections.equals(theProfsCorrectAnswers)){} 	
 	
-	Two (2) long switch/case statements follow (pre-Java 17), the first designed for 'true' selections,
-	and the second for 'false'. Variable indexOfTrueSelected in the switch specifies which selection was made and
-	the matching case value statements set the background color and display correct answers in text fields
+	Two (2) long switch/case statements follow (pre-Java 17), the first designed for 'true' selections, 
+	and the second for 'false'. Variable indexOfTrueSelected in the switch specifies which selection was made and 
+	the matching case value statements set the background color and display correct answers in text fields 
 	and the large preview pane. 
 
 	The switch value indexOfFalseSelected accomplishes basically the same thing, but for false selections. 
 	Now, in hindsight these switch/case statements can possibly be re-factored as loops of some kind, thereby 
 	cutting down on unnecessary code, but since I went to a lot of trouble building it out I'm keeping it for now. 
 
-
-GRADE ALL QUESTIONS ONE TIME IN BULK AT THE END OF THE EXAM ------------------------------------------------------
+GRADE ALL QUESTIONS ONE TIME IN BULK AT THE END OF THE EXAM ------------------------------------------------------ 
 
 	Assuming the user chooses to have all questions graded one time (if (evalGradeImmediately == false){}), 
 	the first code of consequence here in the actionPerformed() method (below the switch/case) of the 'Evaluate' button (section) 
-	takes a different approach. Progressing from question to question, each time 'Evaluate' is clicked an ArrayList<Boolean> of
-	that student's selected answer is added to gradeOnceListOfListsSER, an ArrayList<ArrayList<Boolean>. Every time 'Evaluate'
-	is clicked this gradeOnceListOfListsSER is stored in table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1 and retrieved 
-	at the end. For a more concise and detailed explanation see the section above, BEGIN THE EXAM.
+	takes a different approach. Progressing from question to question, each time 'Evaluate' is clicked an ArrayList<Boolean> of 
+	that student's selected answer is added to gradeOnceListOfListsSER, an ArrayList<ArrayList<Boolean>. Every time 'Evaluate' 
+	is clicked this gradeOnceListOfListsSER is stored in table CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1 and retrieved  
+	at the end. For a more concise and detailed explanation see the section above, BEGIN THE EXAM. 
 		
 	When 'Finish' is selected Java loops through gradeOnceListOfListsSER and performs a list-by-list 
 	comparison of student/instructor list answers for equality. 
@@ -298,50 +295,49 @@ GRADE ALL QUESTIONS ONE TIME IN BULK AT THE END OF THE EXAM --------------------
 	analysis. Until the exam is finally graded and reviewed (as detailed in the section 'FINISH THE EXAM - 
 	HOW GRADING WORKS') there are no correct answers/explanations to review. That comes later during the review stage. 
 	
-	CLASS: EvaluateAnswersLists - Updates and inserts gradeOnceListOfListsSER into CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1.
-	METHOD: getEvaluatedList()
-	METHOD: insertOuterMasterAnswers()
-	METHOD: setUpdateOuterMasterAnswers()
-	METHOD: getRowCountEvaluated()
-	METHOD: deleteRowsEval()
+	CLASS: EvaluateAnswersLists - Updates and inserts gradeOnceListOfListsSER into CREATE_EVAL_ONCE_AND_IMMEDIATE_TABLE_1. 
+	METHOD: getEvaluatedList() 
+	METHOD: insertOuterMasterAnswers() 
+	METHOD: setUpdateOuterMasterAnswers() 
+	METHOD: getRowCountEvaluated() 
+	METHOD: deleteRowsEval() 
 
-
-FINISH THE EXAM - HOW GRADING WORKS ---------------------------------------------
+FINISH THE EXAM - HOW GRADING WORKS --------------------------------------------- 
 
 	When the student clicks 'Finish' (double-click 'Finish' in Design view) the 'grade once at the end' exam is analyzed 
-	first, ie., (if (evalGradeImmediately == false) {}). Similar to the student's gradeOnceListOfListsSER,
-	the instructor's version of this list is retrieved, an ArrayList<ArrayList<Boolean>> masterListOfProfsCorrectAnswers.
+	first, ie., (if (evalGradeImmediately == false) {}). Similar to the student's gradeOnceListOfListsSER, 
+	the instructor's version of this list is retrieved, an ArrayList<ArrayList<Boolean>> masterListOfProfsCorrectAnswers. 
 	masterListOfProfsCorrectAnswers = listOfQuestionsSER.get(0).getMasterProfsCorrectAns(). 
-	This masterListOfProfsCorrectAnswers is always set (?? really?) in the first QuestionSuper object back in the QuestionFactory
-	when the first question is created (see near the bottom of the setQuestionArray() method of the QuestionFactory class).
+	This masterListOfProfsCorrectAnswers is always set (?? really?) in the first QuestionSuper object back in the QuestionFactory 
+	when the first question is created (see near the bottom of the setQuestionArray() method of the QuestionFactory class). 
 	
 	Looping through both lists, they are compared for equality (if they are equal it is a PASS), graded, and 
-	PASS or FAIL is set in the listOfQuestionsSER list's QuestionSuper objects, along with whether the question has been graded.
+	PASS or FAIL is set in the listOfQuestionsSER list's QuestionSuper objects, along with whether the question has been graded. 
 	-listOfQuestionsSER.get(iv).setPassFail("PASS"); 
-	-listOfQuestionsSER.get(iv).setQuestionGraded(true);	
+	-listOfQuestionsSER.get(iv).setQuestionGraded(true); 
 	
 	Next, we need to calculate what the score is, ie., 66% or 92%, using simple math. The number of passing grades are 
-	counted up: (if (listOfQuestionsSER.get(zz).getPassFail().equalsIgnoreCase("PASS")) {++countPass;}.
+	counted up: (if (listOfQuestionsSER.get(zz).getPassFail().equalsIgnoreCase("PASS")) {++countPass;}. 
 	 
-	Then, this number of passing questions is divided by the total number of questions (countPass/numberOfQuestions) and
-	multiplied by 100 to arrive at a percentGrade: percentGrade = ((countPass/numberOfQuestions) * 100).
+	Then, this number of passing questions is divided by the total number of questions (countPass/numberOfQuestions) and 
+	multiplied by 100 to arrive at a percentGrade: percentGrade = ((countPass/numberOfQuestions) * 100). 
 
-	That percentGrade is then used to notify the student if he/she passed or failed. For instance,
-	if (percentGrade < 68) {JOptionPane.showMessageDialog(null,
-		"You failed. You had " + countPass + " correct answers out of " + numberOfQuestions
-		+ " question[s]" + " for a passing grade of " + percentGrade + "% \n"
-		+ " 68 percent is required to pass");
-		listOfQuestionsSER.get(qIndex).setPercentGrade(percentGrade);
+	That percentGrade is then used to notify the student if he/she passed or failed. For instance, 
+	if (percentGrade < 68) {JOptionPane.showMessageDialog(null, 
+		"You failed. You had " + countPass + " correct answers out of " + numberOfQuestions 
+		+ " question[s]" + " for a passing grade of " + percentGrade + "% \n" 
+		+ " 68 percent is required to pass"); 
+		listOfQuestionsSER.get(qIndex).setPercentGrade(percentGrade); 
 		
-	Finally, the listOfQuestionsSER list with updated QuestionSuper objects is set in
+	Finally, the listOfQuestionsSER list with updated QuestionSuper objects is set in 
 	a triple-nested ArrayList<ArrayList<ArrayList<QuestionSuper>>> outerMasterListofMastersSER 
 	by calling updateFinalStudentExams.upDateFinalGradedStudentExams(selectedExamIndex, 
 	listOfQuestionsSER), which will be explained in more detail in the next 
 	section SAVING EXAMS FOR SUBSEQUENT REVIEW. 
 	
-	This outerMasterListofMastersSER is then set/updated in the STUDENTS_OUTERNESTED_TABLE4 table.
+	This outerMasterListofMastersSER is then set/updated in the STUDENTS_OUTERNESTED_TABLE4 table. 
 	Class UpdateFinalStudentExams is important. It contains four (4) methods, one of which 
-	retrieves the triple-nested outerMasterListofMastersSER during the review process. This is
+	retrieves the triple-nested outerMasterListofMastersSER during the review process. This is 
 	where all of the student's exams are stored.
 	
 	For those questions evaluated immediately (in the else{} statement) the process is essentially
