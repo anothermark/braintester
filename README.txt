@@ -1,34 +1,34 @@
 
-Licenses: 
+Licenses: Pending 
 Copyright: MKS (2025 - 2026)
 
 Brain Tester READ_ME_TESTER file
 
-This Java 11 Swing application was designed and created in the open-source Eclipse IDE using WindowBuilder
+This Java 11 Swing application was designed and created in the open-source Eclipse IDE using WindowBuilder 
 and a shared H2 Database. The database is located in the Users directory (Windows), not the working 
 directory. Also, a common convention in both applications is to name a class reference variable 
 the same as the class but with a lower-case first letter, such as: 
-DisplayExamsAndQuestions displayExamsAndQuestions = new DisplayExamsAndQuestions();
-displayExamsAndQuestions.getOuterExamsDisplayed();
+DisplayExamsAndQuestions displayExamsAndQuestions = new DisplayExamsAndQuestions(); 
+displayExamsAndQuestions.getOuterExamsDisplayed(); 
 
-CLASSES, TABLES, METHODS, AND INSTRUCTIONS ON THEIR USE AND DEPLOYMENT:
+CLASSES, TABLES, METHODS, AND INSTRUCTIONS ON THEIR USE AND DEPLOYMENT: 
 
-BRAIN TESTER - THE BIG PICTURE
-THE TESTER GRAPHICAL USER INTERFACE (GUI) BrainTest3.java
-SELECT AN EXAM
-BEGIN THE EXAM
-SELECT AN EVALUATION METHOD
-NAVIGATING WITH NEXT/PREVIOUS
-EVALUATE (Grade) EACH QUESTION IMMEDIATELY AND REVIEW 
-GRADE ALL QUESTIONS ONE TIME IN BULK AT THE END OF THE EXAM 
-FINISH THE EXAM - HOW GRADING WORKS  
-SAVING EXAMS FOR SUBSEQUENT REVIEW 
-REVIEW GRADED EXAMS 
-REVIEW INDIVIDUAL QUESTIONS 
-DELETING GRADED EXAMS 
-MODIFYING CAPTIONS/LABELS IN THE COMBO BOX DROP-DOWN MENU
-CHANGING THE TESTER FAQ TEXT
-MISCELLANEOUS
+- BRAIN TESTER - THE BIG PICTURE 
+- THE TESTER GRAPHICAL USER INTERFACE (GUI) BrainTest3.java 
+- SELECT AN EXAM 
+- BEGIN THE EXAM 
+- SELECT AN EVALUATION METHOD 
+- NAVIGATING WITH NEXT/PREVIOUS 
+- EVALUATE (Grade) EACH QUESTION IMMEDIATELY AND REVIEW 
+- GRADE ALL QUESTIONS ONE TIME IN BULK AT THE END OF THE EXAM 
+- FINISH THE EXAM - HOW GRADING WORKS 
+- SAVING EXAMS FOR SUBSEQUENT REVIEW 
+- REVIEW GRADED EXAMS 
+- REVIEW INDIVIDUAL QUESTIONS 
+- DELETING GRADED EXAMS 
+- MODIFYING CAPTIONS/LABELS IN THE COMBO BOX DROP-DOWN MENU 
+- CHANGING THE TESTER FAQ TEXT 
+- MISCELLANEOUS 
 
 
 BRAIN TESTER - THE BIG PICTURE ----------------------------------------
